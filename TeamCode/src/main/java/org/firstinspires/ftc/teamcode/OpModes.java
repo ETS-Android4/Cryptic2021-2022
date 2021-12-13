@@ -32,17 +32,17 @@ public class OpModes extends LinearOpMode {
             px = value;
 
 
-            double LeftPower = (forward + turn);
-            double RightPower = (forward - turn);
-            double denominator = Math.max(Math.max(Math.abs(LeftPower), Math.abs(RightPower)), 1);
-            LeftPower /= denominator;
-            RightPower /= denominator;
+            double leftPower = (forward + turn);
+            double rightPower = (forward - turn);
+            double denominator = Math.max(Math.max(Math.abs(leftPower), Math.abs(rightPower)), 1);
+            leftPower /= denominator;
+            rightPower /= denominator;
             //proper scaling for motor powers in case it exceeds 1
 
-            robot.rightFront.setPower(RightPower);
-            robot.rightBack.setPower(RightPower);
-            robot.leftBack.setPower(LeftPower);
-            robot.leftFront.setPower(LeftPower);
+            robot.rightFront.setPower(rightPower);
+            robot.rightBack.setPower(rightPower);
+            robot.leftBack.setPower(leftPower);
+            robot.leftFront.setPower(leftPower);
         }
     }
 }
