@@ -11,14 +11,14 @@ public class Robot {
    public DcMotor rightFront;
    public DcMotor leftBack;
    public DcMotor rightBack;
-   public CRServo intakeServo;
+//   public DcMotor intakeMotor;
 
    public void initialize(OpMode opMode) {
        leftFront = opMode.hardwareMap.get(DcMotor.class, "lf");
        rightFront = opMode.hardwareMap.get(DcMotor.class, "rf");
-       leftBack = opMode.hardwareMap.get(DcMotor.class, "lb");
+       leftBack = opMode.hardwareMap.get(DcMotor.class,  "lb");
        rightBack = opMode.hardwareMap.get(DcMotor.class, "rb");
-       intakeServo = opMode.hardwareMap.get(CRServo.class, "is");
+//       intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intake");
 
        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);

@@ -10,7 +10,8 @@ public class OpModes extends LinearOpMode {
         Robot robot = new Robot();
         robot.initialize(this);
         waitForStart();
-        double forward, turn, factor =1;
+        double forward, turn = 1;
+        double factor = 0.7;
         boolean px = false;
         boolean toggle = false;
         boolean value;
@@ -18,15 +19,15 @@ public class OpModes extends LinearOpMode {
             forward = -gamepad1.left_stick_y;
             turn = gamepad1.right_stick_x;
 
-            if(gamepad1.b){
-                factor = 0.5;
-                forward*=factor;
-                turn*=factor;
+            if(gamepad1.left_bumper){
+                factor = 0.3;
             }
+            forward*=factor;
+            turn*=factor;
 
             value = gamepad1.x;
             if(value && !px){
-                robot.intakeServo.setPower(toggle ? 0:1);
+//                robot.intakeMotor.setPower(toggle ? 0:1);
                 toggle = !toggle;
             }
             px = value;
