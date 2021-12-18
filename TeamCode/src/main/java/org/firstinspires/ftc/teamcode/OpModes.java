@@ -16,7 +16,9 @@ public class OpModes extends LinearOpMode {
         boolean toggle = false;
         boolean value;
         while(opModeIsActive()){
-            forward = -gamepad1.left_stick_y;
+
+            forward = gamepad1.left_trigger - gamepad1.right_trigger -gamepad1.left_stick_y;
+            //cause why not
             turn = gamepad1.right_stick_x;
 
             if(gamepad1.right_bumper){
@@ -46,6 +48,7 @@ public class OpModes extends LinearOpMode {
             robot.rightBack.setPower(rightPower);
             robot.leftBack.setPower(leftPower);
             robot.leftFront.setPower(leftPower);
+
         }
     }
 }

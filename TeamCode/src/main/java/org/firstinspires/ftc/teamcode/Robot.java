@@ -11,6 +11,7 @@ public class Robot {
    public DcMotor rightFront;
    public DcMotor leftBack;
    public DcMotor rightBack;
+   int mode;
 //   public DcMotor intakeMotor;
 
    public void initialize(OpMode opMode) {
@@ -22,11 +23,18 @@ public class Robot {
 
        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-
-       leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-       rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-       leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-       rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       mode = 1;
+       if (mode == 0) {
+           leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+           rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+           leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+           rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+       } else if(mode == 1) {
+           leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+           rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+           leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+           rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       }
    }
 }
 
