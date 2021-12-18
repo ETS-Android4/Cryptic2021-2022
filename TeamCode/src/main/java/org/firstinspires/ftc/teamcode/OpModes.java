@@ -19,8 +19,10 @@ public class OpModes extends LinearOpMode {
             forward = -gamepad1.left_stick_y;
             turn = gamepad1.right_stick_x;
 
-            if(gamepad1.left_bumper){
+            if(gamepad1.right_bumper){
                 factor = 0.3;
+            }else{
+                factor = 0.7;
             }
             forward*=factor;
             turn*=factor;
