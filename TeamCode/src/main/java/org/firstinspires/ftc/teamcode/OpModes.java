@@ -19,7 +19,8 @@ public class OpModes extends LinearOpMode {
 
             forward = gamepad1.left_trigger - gamepad1.right_trigger -gamepad1.left_stick_y;
             //cause why not
-            turn = gamepad1.right_stick_x;
+            turn = gamepad1.right_stick_x * 0.8;
+            //turning is too sensitive
 
             if(gamepad1.right_bumper){
                 factor = 0.3;
