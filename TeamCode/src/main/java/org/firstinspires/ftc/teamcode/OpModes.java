@@ -11,7 +11,7 @@ public class OpModes extends LinearOpMode {
         robot.initialize(this);
         waitForStart();
         double forward, turn = 1;
-        double factor = 0.7;
+        double factor = 0.85;
         boolean px = false;
         boolean toggle = false;
         boolean value;
@@ -19,13 +19,13 @@ public class OpModes extends LinearOpMode {
 
             forward = gamepad1.left_trigger - gamepad1.right_trigger -gamepad1.left_stick_y;
             //cause why not
-            turn = gamepad1.right_stick_x * 0.8;
+            turn = gamepad1.right_stick_x * 0.9;
             //turning is too sensitive
 
             if(gamepad1.right_bumper){
                 factor = 0.3;
             }else{
-                factor = 0.7;
+                factor = 0.85;
             }
             forward*=factor;
             turn*=factor;
