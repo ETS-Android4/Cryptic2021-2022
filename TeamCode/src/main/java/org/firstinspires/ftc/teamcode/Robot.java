@@ -12,6 +12,7 @@ public class Robot {
    public DcMotor rightFront;
    public DcMotor leftBack;
    public DcMotor rightBack;
+   public DcMotor duckWheel;
     public Subsystem drivetrain;
     public Intakeservo intakeservo;
    public void initialize(LinearOpMode opMode) {

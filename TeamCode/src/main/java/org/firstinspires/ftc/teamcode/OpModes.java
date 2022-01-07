@@ -20,8 +20,10 @@ public class OpModes extends LinearOpMode {
             forward = gamepad1.left_trigger - gamepad1.right_trigger -gamepad1.left_stick_y;
             //cause why not
             turn = gamepad1.right_stick_x * 0.9;
-            //turning is too sensitive
-
+            //turning is too sensitive''
+            if(gamepad1.y){
+                robot.duckWheel.setPower(.5);
+            }
             if(gamepad1.right_bumper){
                 factor = 0.3;
             }else{
