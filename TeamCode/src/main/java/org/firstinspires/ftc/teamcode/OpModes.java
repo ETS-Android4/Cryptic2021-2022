@@ -31,11 +31,20 @@ public class OpModes extends LinearOpMode {
             forward*=factor;
             turn*=factor;
 
-            gamepad2.left_stick_y
             if(gamepad2.left_stick_y > 0){
-                robot.intakeservo.intakeMotor.setPower(1);
+                robot.intakeservo.intakeMotor.setPower(-1);
+                robot.intakeservo.intakeServo.setPosition(0.1);
             }
 
+            else if(gamepad2.left_stick_y < 0){
+                robot.intakeservo.intakeMotor.setPower(1);
+                robot.intakeservo.intakeServo.setPosition(0.7);
+            }
+
+            else{
+                robot.intakeservo.intakeMotor.setPower(0);
+                robot.intakeservo.intakeServo.setPosition(0.4);
+            }
 
             double leftPower = (forward + turn);
             double rightPower = (forward - turn);
