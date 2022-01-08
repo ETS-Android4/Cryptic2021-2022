@@ -14,43 +14,15 @@ public class OpModes extends LinearOpMode {
         double factor = 0.85;
         boolean px = false;
         boolean toggle = false;
-        boolean value;
-        boolean oldX = false;
-        boolean xToggle = false;
-        boolean oldY = false;
-        boolean yToggle = false;
         while(opModeIsActive()){
 
             forward = gamepad1.left_trigger - gamepad1.right_trigger -gamepad1.left_stick_y;
             //cause why not
             turn = gamepad1.right_stick_x * 0.9;
             //turning is too sensitive''
-            if(gamepad1.x && !oldX) {
-                xToggle = !xToggle;
-                if(xToggle) {
-                    //spin one direction
-                    yToggle = false;
-                    robot.duckWheel.setPower(.5);
-                } else {
-                    //stop spinning
-                    robot.duckWheel.setPower(0);
-                }
+            if(gamepad1.y){
+                robot.duckWheel.setPower(.5);
             }
-
-            if(gamepad1.y && !oldY) {
-                yToggle = !yToggle;
-                if(yToggle) {
-                    //spin other direction
-                    xToggle = false;
-                    robot.duckWheel.setPower(-.5);
-                } else {
-                    //stop spinning
-                    robot.duckWheel.setPower(0);
-                }
-            }
-            gamepad1.x = oldX;
-            gamepad1.y = oldY;
-
             if(gamepad1.right_bumper){
                 factor = 0.3;
             }else{
@@ -59,12 +31,10 @@ public class OpModes extends LinearOpMode {
             forward*=factor;
             turn*=factor;
 
-            value = gamepad1.x;
-            if(value && !px){
-//                robot.intakeMotor.setPower(toggle ? 0:1);
-                toggle = !toggle;
+            gamepad2.left_stick_y
+            if(gamepad2.left_stick_y > 0){
+                robot.intakeservo.intakeMotor.setPower(1);
             }
-            px = value;
 
 
             double leftPower = (forward + turn);

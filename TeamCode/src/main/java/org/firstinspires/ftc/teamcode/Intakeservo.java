@@ -5,9 +5,12 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Intakeservo implements Subsystem{
-    CRServo intakeMotor;
+    DcMotor intakeMotor;
+    CRServo intakeServo;
     @Override
     public void init(LinearOpMode opMode) {
-        intakeMotor = opMode.hardwareMap.get(CRServo.class, "intake");
+        intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intakeM");
+        intakeServo = opMode.hardwareMap.get(CRServo.class, "intakeS");
     }
+
 }
