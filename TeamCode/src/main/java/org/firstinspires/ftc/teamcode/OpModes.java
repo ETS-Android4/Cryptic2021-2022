@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp(name="First OpMode")
 public class OpModes extends LinearOpMode {
@@ -14,14 +15,16 @@ public class OpModes extends LinearOpMode {
         double factor = 0.85;
         boolean px = false;
         boolean toggle = false;
-        boolean value;
+        int duckwheelToggle = 2;
         while(opModeIsActive()){
 
             forward = gamepad1.left_trigger - gamepad1.right_trigger -gamepad1.left_stick_y;
             //cause why not
             turn = gamepad1.right_stick_x * 0.9;
-            //turning is too sensitive
-
+            //turning is too sensitive''
+            if(gamepad1.y){
+                robot.duckWheel.setPower(.5);
+            }
             if(gamepad1.right_bumper){
                 factor = 0.3;
             }else{
@@ -30,13 +33,41 @@ public class OpModes extends LinearOpMode {
             forward*=factor;
             turn*=factor;
 
-            value = gamepad1.x;
-            if(value && !px){
-//                robot.intakeMotor.setPower(toggle ? 0:1);
-                toggle = !toggle;
+            if(gamepad2.left_stick_y > 0){
+                robot.intakeMotor.setPower(-0.8);
+                robot.intakeServo.setPosition(0.1);
+                telemetry.addData("Y", 0.1);
             }
-            px = value;
 
+            else if(gamepad2.left_stick_y < 0){
+                robot.intakeMotor.setPower(0.6);
+                robot.intakeServo.setPosition(0.5);
+                telemetry.addData("Y", 0.5);
+            }
+
+            else{
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPosition(0.4);
+                telemetry.addData("Y", 0.4);
+            }
+
+            if (gamepad2.a) {
+                robot.intakeServo.setPosition(0.6);
+            }
+
+            if(gamepad2.x && duckwheelToggle == 1){
+                robot.duckWheel.setPower(0);
+                duckwheelToggle = 2;
+            }else if(gamepad2.x){
+                robot.duckWheel.setPower(.5);
+                duckwheelToggle = 1;
+            }else if(gamepad2.y && duckwheelToggle == 0){
+                robot.duckWheel.setPower(0);
+                duckwheelToggle = 2;
+            }else if(gamepad2.y){
+                robot.duckWheel.setPower(-.5);
+                duckwheelToggle = 0;
+            }
 
             double leftPower = (forward + turn);
             double rightPower = (forward - turn);
@@ -50,6 +81,7 @@ public class OpModes extends LinearOpMode {
             robot.leftBack.setPower(leftPower);
             robot.leftFront.setPower(leftPower);
 
+            telemetry.update();
         }
     }
 }

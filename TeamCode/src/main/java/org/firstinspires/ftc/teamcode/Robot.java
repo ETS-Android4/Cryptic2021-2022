@@ -5,12 +5,16 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Robot {
    public DcMotor leftFront;
    public DcMotor rightFront;
    public DcMotor leftBack;
    public DcMotor rightBack;
+    public DcMotor duckWheel;
+    public DcMotor intakeMotor;
+    public Servo intakeServo;
    int mode;
 //   public DcMotor intakeMotor;
 
@@ -19,6 +23,9 @@ public class Robot {
        rightFront = opMode.hardwareMap.get(DcMotor.class, "rf");
        leftBack = opMode.hardwareMap.get(DcMotor.class,  "lb");
        rightBack = opMode.hardwareMap.get(DcMotor.class, "rb");
+       duckWheel = opMode.hardwareMap.get(DcMotor.class, "duckwheel");
+       intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intakeM");
+       intakeServo = opMode.hardwareMap.get(Servo.class, "intakeS");
 //       intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intake");
 
        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -35,6 +42,7 @@ public class Robot {
            leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
            rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
        }
+       intakeServo.setPosition(0);
    }
 }
 
