@@ -41,7 +41,7 @@ public class OpModes extends LinearOpMode {
 
             else if(gamepad2.left_stick_y < 0){
                 robot.intakeMotor.setPower(0.6);
-                robot.intakeServo.setPosition(0.5);
+                robot.intakeServo.setPosition(0.501);
                 telemetry.addData("Y", 0.5);
             }
 
