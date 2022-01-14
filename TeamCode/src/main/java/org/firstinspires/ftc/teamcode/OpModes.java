@@ -55,23 +55,23 @@ public class OpModes extends LinearOpMode {
             turn*=factor;
 
             if(gamepad2.left_stick_y > 0){
-                robot.intakeservo.intakeMotor.setPower(-1);
-                robot.intakeservo.intakeServo.setPosition(0.10000001);
+                robot.intakeMotor.setPower(-1);
+                robot.intakeServo.setPosition(0.10000001);
             }
 
             else if(gamepad2.left_stick_y < 0){
-                robot.intakeservo.intakeMotor.setPower(1);
-                robot.intakeservo.intakeServo.setPosition(0.7);
+                robot.intakeMotor.setPower(1);
+                robot.intakeServo.setPosition(0.7);
             }
 
             else{
-                robot.intakeservo.intakeMotor.setPower(0);
-                robot.intakeservo.intakeServo.setPosition(0.4);
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPosition(0.4);
             }
 
 
             if (gamepad2.b){
-                robot.intakeservo.intakeServo.setPosition(0.9);
+                robot.intakeServo.setPosition(0.9);
             }
 
 //            if(up < 0){
