@@ -15,9 +15,11 @@ public class Robot {
    public DcMotor duckWheel;
     public Subsystem drivetrain;
     public Intakeservo intakeservo;
+    public outake Outake;
    public void initialize(LinearOpMode opMode) {
         drivetrain.init(opMode);
         intakeservo.init(opMode);
+        Outake.init(opMode);
    }
 }
 
