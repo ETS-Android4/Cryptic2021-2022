@@ -18,6 +18,11 @@ public class OpModes extends LinearOpMode {
         int duck = 1;
         double up = 0;
         double spinny = 1;
+        double updown0 = 0;
+        double updown1 = 0.2;
+        double updown2 = 0.55;
+        double updown3 = 0.9;
+        double spinnyVal = 0.722;
         while(opModeIsActive()){
 
             forward = gamepad1.left_trigger - gamepad1.right_trigger -gamepad1.left_stick_y;
@@ -25,22 +30,7 @@ public class OpModes extends LinearOpMode {
             turn = gamepad1.right_stick_x * 0.9;
             //turning is too sensitive''
             if(gamepad1.y){
-                duck+=1;
-                if(duck > 3){
-                    duck -= 3;
-                }
-            }
-
-            if(duck == 1){
-                robot.duckWheel.setPower(0);
-            }
-
-            if(duck == 2){
                 robot.duckWheel.setPower(0.5);
-            }
-
-            if(duck == 3){
-                robot.duckWheel.setPower(-0.5);
             }
 
             if(gamepad1.right_bumper){
@@ -74,41 +64,79 @@ public class OpModes extends LinearOpMode {
                 robot.intakeServo.setPosition(0.9);
             }
 
-//            if(up < 0){
-//                up = 0.125;
+//            if(gamepad2.y && up!=3){
+//                up +=1;
 //            }
 //
-//            if(up > 1){
-//                up = 0.875;
+//            if(gamepad2.left_bumper){
+//                up = 0;
 //            }
 //
-//            if(gamepad2.right_stick_x >= 0.75){
-//                up+=0.05;
+//            if(gamepad2.a && up!=0){
+//                up -=1;
+//            }
+
+
+
+            if(gamepad2.right_bumper && up!=3){
+                up +=1;
+            }
+
+            else if(gamepad2.a){
+                up = 0;
+            }
+
+            else if(gamepad2.left_bumper && up!=0){
+                up -=1;
+            }
+
+            if(up == 0){
+                robot.outakeServo.setPosition(updown0);
+                robot.outakeServo2.setPosition(1-updown0);
+            }
+
+            else if(up == 1){
+                robot.outakeServo.setPosition(updown1);
+                robot.outakeServo2.setPosition(1-updown1);
+            }
+
+            else if(up == 2){
+                robot.outakeServo.setPosition(updown2);
+                robot.outakeServo2.setPosition(1-updown2);
+            }
+
+            else if(up == 3){
+                robot.outakeServo.setPosition(updown3);
+                robot.outakeServo.setPosition(1-updown3);
+            }
+
+
+//            if(gamepad2.x && robot.outakeServo.getPosition() != 0.722){
+//                robot.outakeServo3.setPosition(0.722);
+//                robot.outakeServo4.setPosition(0.722);
 //            }
 //
-//            else if(gamepad2.right_stick_x <= -0.75){
-//                up-=0.05;
+//            else if(gamepad2.x && robot.outakeServo.getPosition() != 0){
+//                robot.outakeServo3.setPosition(0);
+//                robot.outakeServo4.setPosition(0);
 //            }
-//
-//            robot.Outake.outakeServo.setPosition(up);
-//            robot.Outake.outakeServo2.setPosition(1-up);
-//
-//            if(gamepad2.b){
-//                spinny+=1;
-//                if(spinny>2){
-//                    spinny = 1;
-//                }
-//            }
-//
-//            if(spinny == 1){
-//                robot.Outake.outakeServo3.setPosition(0);
-//                robot.Outake.outakeServo4.setPosition(0);
-//            }
-//
-//            if(spinny == 2){
-//                robot.Outake.outakeServo3.setPosition(0.722);
-//                robot.Outake.outakeServo4.setPosition(0.722);
-//            }
+
+            if(gamepad2.x){
+                spinny+=1;
+                if(spinny>2){
+                    spinny = 1;
+                }
+            }
+
+            if(spinny == 1){
+                robot.outakeServo3.setPosition(0);
+                robot.outakeServo4.setPosition(0);
+            }
+
+            else if(spinny == 2){
+                robot.outakeServo3.setPosition(spinnyVal);
+                robot.outakeServo4.setPosition(1-spinnyVal);
+            }
 
 
             double leftPower = (forward + turn);

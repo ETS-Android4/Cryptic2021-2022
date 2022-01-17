@@ -14,6 +14,10 @@ public class Robot {
    public DcMotor leftBack;
    public DcMotor rightBack;
    public DcMotor duckWheel;
+   public Servo outakeServo;
+   public Servo outakeServo2;
+   public Servo outakeServo3;
+   public Servo outakeServo4;
 
     DcMotor intakeMotor;
     Servo intakeServo;
@@ -21,6 +25,11 @@ public class Robot {
 
        intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intakeM");
        intakeServo = opMode.hardwareMap.get(Servo.class, "intakeS");
+
+       outakeServo = opMode.hardwareMap.get(Servo.class, "outakeS");
+       outakeServo2 = opMode.hardwareMap.get(Servo.class, "outakeS2");
+       outakeServo3 = opMode.hardwareMap.get(Servo.class, "outakeS3");
+       outakeServo4 = opMode.hardwareMap.get(Servo.class, "outakeS4");
 
        leftFront = opMode.hardwareMap.get(DcMotor.class, "lf");
        rightFront = opMode.hardwareMap.get(DcMotor.class, "rf");
