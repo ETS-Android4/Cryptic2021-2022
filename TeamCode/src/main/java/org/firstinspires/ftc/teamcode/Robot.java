@@ -15,6 +15,8 @@ public class Robot {
     public DcMotor duckWheel;
     public DcMotor intakeMotor;
     public Servo intakeServo;
+    public Servo extensionServoLeft;
+    public Servo extensionServoRight;
    int mode;
 //   public DcMotor intakeMotor;
 
@@ -26,6 +28,8 @@ public class Robot {
        duckWheel = opMode.hardwareMap.get(DcMotor.class, "duckwheel");
        intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intakeM");
        intakeServo = opMode.hardwareMap.get(Servo.class, "intakeS");
+       extensionServoLeft = opMode.hardwareMap.get(Servo.class, "osl");
+       extensionServoRight = opMode.hardwareMap.get(Servo.class, "osr");
 //       intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intake");
 
        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -43,6 +47,8 @@ public class Robot {
            rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
        }
        intakeServo.setPosition(0);
+        extensionServoLeft.setPosition(0);
+       extensionServoRight.setPosition(0);
    }
 }
 

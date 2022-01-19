@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp(name="First OpMode")
@@ -16,6 +17,9 @@ public class OpModes extends LinearOpMode {
         boolean px = false;
         boolean toggle = false;
         int duckwheelToggle = 2;
+        int intakeServoState=0;
+        boolean starts=false;
+        ElapsedTime mytimer = new ElapsedTime();
         while(opModeIsActive()){
 
             forward = gamepad1.left_trigger - gamepad1.right_trigger -gamepad1.left_stick_y;
@@ -33,41 +37,78 @@ public class OpModes extends LinearOpMode {
             forward*=factor;
             turn*=factor;
 
-            if(gamepad2.left_stick_y > 0){
-                robot.intakeMotor.setPower(-0.8);
-                robot.intakeServo.setPosition(0.1);
-                telemetry.addData("Y", 0.1);
+            if(gamepad2.left_stick_y > 0.5){
+                robot.intakeMotor.setPower(-0.9);
+                robot.intakeServo.setPosition(0);
+                telemetry.addData("Y", 0);
             }
 
-            else if(gamepad2.left_stick_y < 0){
-                robot.intakeMotor.setPower(0.6);
-                robot.intakeServo.setPosition(0.501);
-                telemetry.addData("Y", 0.5);
+            else if(gamepad2.left_stick_y < -0.5){
+                robot.intakeMotor.setPower(0.65);
+                robot.intakeServo.setPosition(0.3);
+                telemetry.addData("Y", 0.4);
             }
 
-            else{
+            else if (intakeServoState !=1){
+
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPosition(0.4);
-                telemetry.addData("Y", 0.4);
+                telemetry.addData("Y", 0.3);
+
             }
 
             if (gamepad2.a) {
                 robot.intakeServo.setPosition(0.6);
             }
 
-            if(gamepad2.x && duckwheelToggle == 1){
-                robot.duckWheel.setPower(0);
-                duckwheelToggle = 2;
-            }else if(gamepad2.x){
-                robot.duckWheel.setPower(.5);
-                duckwheelToggle = 1;
-            }else if(gamepad2.y && duckwheelToggle == 0){
-                robot.duckWheel.setPower(0);
-                duckwheelToggle = 2;
-            }else if(gamepad2.y){
-                robot.duckWheel.setPower(-.5);
-                duckwheelToggle = 0;
+            if((mytimer.time()>0 && mytimer.time()<3) && (starts)){
+
+                robot.intakeServo.setPosition(1);
+
+
             }
+            else if((mytimer.time()>2.5 && mytimer.time()<5) && (starts)){
+
+
+                robot.intakeMotor.setPower(1);
+
+            }
+            else if (intakeServoState == 1){
+                robot.intakeServo.setPosition(.3);
+                robot.intakeMotor.setPower(0);
+                intakeServoState = 0;
+            }
+            if(gamepad2.b){
+                mytimer.reset();
+                intakeServoState = 1;
+                starts = true;
+            }
+
+
+
+//            if(gamepad2.x && duckwheelToggle == 1){
+//                robot.duckWheel.setPower(0);
+//                duckwheelToggle = 2;
+//            }else if(gamepad2.x){
+//                robot.duckWheel.setPower(.5);
+//                duckwheelToggle = 1;
+//            }else if(gamepad2.y && duckwheelToggle == 0){
+//                robot.duckWheel.setPower(0);
+//                duckwheelToggle = 2;
+//            }else if(gamepad2.y){
+//                robot.duckWheel.setPower(-.5);
+//                duckwheelToggle = 0;
+//            }
+
+            if(gamepad2.x){
+                robot.duckWheel.setPower(0.55);
+            }else if(gamepad2.y){
+                robot.duckWheel.setPower(-0.55);
+            }else{
+                robot.duckWheel.setPower(0);
+            }
+
+
 
             double leftPower = (forward + turn);
             double rightPower = (forward - turn);
