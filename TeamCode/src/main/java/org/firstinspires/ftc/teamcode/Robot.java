@@ -47,8 +47,8 @@ public class Robot {
            rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
        }
        intakeServo.setPosition(0);
-        extensionServoLeft.setPosition(0);
-       extensionServoRight.setPosition(0);
+       extensionServoLeft.setPosition(0);
+       extensionServoRight.setPosition(1);
    }
 }
 
