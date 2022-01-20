@@ -14,8 +14,8 @@ public class Robot {
    public DcMotor leftBack;
    public DcMotor rightBack;
    public DcMotor duckWheel;
-   public Servo outakeServo;
-   public Servo outakeServo2;
+   public Servo extensionServoLeft;
+   public Servo extensionServoRight;
    public Servo outakeServo3;
    public Servo outakeServo4;
 
@@ -26,8 +26,8 @@ public class Robot {
        intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intakeM");
        intakeServo = opMode.hardwareMap.get(Servo.class, "intakeS");
 
-       outakeServo = opMode.hardwareMap.get(Servo.class, "outakeS");
-       outakeServo2 = opMode.hardwareMap.get(Servo.class, "outakeS2");
+       extensionServoLeft = opMode.hardwareMap.get(Servo.class, "osl");
+       extensionServoRight = opMode.hardwareMap.get(Servo.class, "osr");
        outakeServo3 = opMode.hardwareMap.get(Servo.class, "outakeS3");
        outakeServo4 = opMode.hardwareMap.get(Servo.class, "outakeS4");
 
@@ -35,7 +35,7 @@ public class Robot {
        rightFront = opMode.hardwareMap.get(DcMotor.class, "rf");
        leftBack = opMode.hardwareMap.get(DcMotor.class, "lb");
        rightBack = opMode.hardwareMap.get(DcMotor.class, "rb");
-       duckWheel = opMode.hardwareMap.get(DcMotor.class, "dw");
+       duckWheel = opMode.hardwareMap.get(DcMotor.class, "duckwheel");
 
        //to make robot wheels spin the same way bc the motor inverts the other side's wheels
        //reversing the one side of the robot's wheels direction
@@ -51,7 +51,9 @@ public class Robot {
        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
        duckWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
+       intakeServo.setPosition(0);
+       extensionServoLeft.setPosition(0);
+       extensionServoRight.setPosition(1);
    }
 }
 

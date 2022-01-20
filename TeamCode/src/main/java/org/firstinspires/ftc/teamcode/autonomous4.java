@@ -25,15 +25,15 @@ public class autonomous4 extends LinearOpMode {
                 .lineTo(new Vector2d(-12, 36))
                 .waitSeconds(3)
                 .addDisplacementMarker(() -> {
-                    robot.outakeServo.setPosition(0.9);
-                    robot.outakeServo2.setPosition(0.9);
+                    robot.extensionServoLeft.setPosition(0.9);
+                    robot.extensionServoRight.setPosition(0.9);
                     robot.outakeServo3.setPosition(0.722);
                     robot.outakeServo4.setPosition(0.722);
                 })
                 .waitSeconds(3)
                 .addDisplacementMarker(() -> {
-                    robot.outakeServo.setPosition(0);
-                    robot.outakeServo2.setPosition(0);
+                    robot.extensionServoLeft.setPosition(0);
+                    robot.extensionServoRight.setPosition(0);
                     robot.outakeServo3.setPosition(0);
                     robot.outakeServo4.setPosition(0);
                 })
