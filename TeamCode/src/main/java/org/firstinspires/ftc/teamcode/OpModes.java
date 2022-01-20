@@ -78,16 +78,22 @@ public class OpModes extends LinearOpMode {
 
 
 
-            if(gamepad2.right_bumper && up!=3){
+            if(gamepad2.right_bumper){
                 up +=1;
+                if(up > 3){
+                    up = 0;
+                }
             }
 
             else if(gamepad2.a){
                 up = 0;
             }
 
-            else if(gamepad2.left_bumper && up!=0){
+            else if(gamepad2.left_bumper){
                 up -=1;
+                if(up < 0){
+                    up = 3;
+                }
             }
 
             if(up == 0){
