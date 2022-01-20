@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -12,43 +13,45 @@ public class Robot {
    public DcMotor rightFront;
    public DcMotor leftBack;
    public DcMotor rightBack;
-    public DcMotor duckWheel;
-    public DcMotor intakeMotor;
-    public Servo intakeServo;
-    public Servo extensionServoLeft;
-    public Servo extensionServoRight;
-   int mode;
-//   public DcMotor intakeMotor;
+   public DcMotor duckWheel;
+   public Servo outakeServo;
+   public Servo outakeServo2;
+   public Servo outakeServo3;
+   public Servo outakeServo4;
 
-   public void initialize(OpMode opMode) {
-       leftFront = opMode.hardwareMap.get(DcMotor.class, "lf");
-       rightFront = opMode.hardwareMap.get(DcMotor.class, "rf");
-       leftBack = opMode.hardwareMap.get(DcMotor.class,  "lb");
-       rightBack = opMode.hardwareMap.get(DcMotor.class, "rb");
-       duckWheel = opMode.hardwareMap.get(DcMotor.class, "duckwheel");
+    DcMotor intakeMotor;
+    Servo intakeServo;
+   public void initialize(LinearOpMode opMode) {
+
        intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intakeM");
        intakeServo = opMode.hardwareMap.get(Servo.class, "intakeS");
-       extensionServoLeft = opMode.hardwareMap.get(Servo.class, "osl");
-       extensionServoRight = opMode.hardwareMap.get(Servo.class, "osr");
-//       intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intake");
 
-       leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-       leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-       mode = 1;
-       if (mode == 0) {
-           leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-           rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-           leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-           rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-       } else if(mode == 1) {
-           leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-           rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-           leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-           rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-       }
-       intakeServo.setPosition(0);
-       extensionServoLeft.setPosition(0);
-       extensionServoRight.setPosition(1);
+       outakeServo = opMode.hardwareMap.get(Servo.class, "outakeS");
+       outakeServo2 = opMode.hardwareMap.get(Servo.class, "outakeS2");
+       outakeServo3 = opMode.hardwareMap.get(Servo.class, "outakeS3");
+       outakeServo4 = opMode.hardwareMap.get(Servo.class, "outakeS4");
+
+       leftFront = opMode.hardwareMap.get(DcMotor.class, "lf");
+       rightFront = opMode.hardwareMap.get(DcMotor.class, "rf");
+       leftBack = opMode.hardwareMap.get(DcMotor.class, "lb");
+       rightBack = opMode.hardwareMap.get(DcMotor.class, "rb");
+       duckWheel = opMode.hardwareMap.get(DcMotor.class, "dw");
+
+       //to make robot wheels spin the same way bc the motor inverts the other side's wheels
+       //reversing the one side of the robot's wheels direction
+       //bc the motor inverts the other side's wheels
+       //therefore being able to travel forward
+       rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+       rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+       //to make robot stop when youre not moving the sticks
+       leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       duckWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
    }
 }
 
