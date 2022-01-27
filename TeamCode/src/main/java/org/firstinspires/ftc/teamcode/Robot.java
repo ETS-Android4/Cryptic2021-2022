@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -7,6 +8,8 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 
 public class Robot {
    public DcMotor leftFront;
@@ -18,6 +21,7 @@ public class Robot {
    public Servo extensionServoRight;
    public Servo outakeServo3;
    public Servo outakeServo4;
+
 
     DcMotor intakeMotor;
     Servo intakeServo;
@@ -52,8 +56,12 @@ public class Robot {
        duckWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
        intakeServo.setPosition(0);
-       extensionServoLeft.setPosition(0);
+       extensionServoLeft.setPosition(0.27);
        extensionServoRight.setPosition(1);
+       outakeServo3.setPosition(0.33);
+
+
+
    }
 }
 

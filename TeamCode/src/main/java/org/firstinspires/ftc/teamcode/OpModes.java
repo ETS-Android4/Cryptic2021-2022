@@ -22,8 +22,13 @@ public class OpModes extends LinearOpMode {
         double updown3 = 0.9;
         double spinnyVal = 0.722;
         int intakeServoState=0;
+        double sss = 0;
         boolean starts=false;
+        boolean changed = true;
+        boolean changed2 = false;
+        boolean dropTog = false;
         ElapsedTime mytimer = new ElapsedTime();
+        boolean outtake_toggle = true;
         while(opModeIsActive()){
 
             //basic drivetrain functions
@@ -82,6 +87,8 @@ public class OpModes extends LinearOpMode {
                 telemetry.addData("Y", 0.3);
             }
 
+
+
             else if (intakeServoState !=1){
 
                 robot.intakeMotor.setPower(0);
@@ -101,23 +108,18 @@ public class OpModes extends LinearOpMode {
 
             //outtake transportation sequence
 
-            if((mytimer.time()>0 && mytimer.time()<3) && (starts)){
-
+            if((mytimer.time()>0 && mytimer.time()<2) && (starts)){
                 robot.intakeServo.setPosition(1);
-
-
             }
-            else if((mytimer.time()>2.5 && mytimer.time()<5) && (starts)){
-
-
+            else if((mytimer.time()>1.5 && mytimer.time()<3) && (starts)){
                 robot.intakeMotor.setPower(1);
-
             }
             else if (intakeServoState == 1){
                 robot.intakeServo.setPosition(.3);
                 robot.intakeMotor.setPower(0);
                 intakeServoState = 0;
             }
+
             if(gamepad2.b){
                 mytimer.reset();
                 intakeServoState = 1;
@@ -127,7 +129,7 @@ public class OpModes extends LinearOpMode {
 
 
             //outtake stuff
-
+/*
             if(gamepad2.right_bumper){
                 up +=1;
                 if(up > 3){
@@ -194,9 +196,54 @@ public class OpModes extends LinearOpMode {
                 robot.outakeServo4.setPosition(1-spinnyVal);
             }
 
+ */
+//            if(gamepad2.left_trigger>0.5 && !changed) {
+//                if(robot.extensionServoLeft.getPosition() == 0.6) {
+//                    robot.extensionServoLeft.setPosition(1);
+//                }
+//                else {
+//                    robot.extensionServoLeft.setPosition(0.6);
+//                }
+//                changed = true;
+//            } else if(!(gamepad2.left_trigger>0.5)) changed = false;
+
+            if(gamepad2.left_trigger>0.5 && !changed) {
+                if(sss == 0.6) {
+                    robot.extensionServoLeft.setPosition(0.95);
+                    robot.extensionServoRight.setPosition(0);
+                    robot.outakeServo3.setPosition(0.15);
+                    sss = 1;
+                }
+                else {
+                    robot.extensionServoLeft.setPosition(0.27);
+                    robot.extensionServoRight.setPosition(1);
+                    robot.outakeServo3.setPosition(0.33);
+                    sss= 0.6;
+                }
+                changed = true;
 
 
+            } else if(!(gamepad2.left_trigger>0.5)) changed = false;
 
+            if (gamepad2.left_bumper && !changed2){
+                if(!dropTog) {
+                    robot.outakeServo3.setPosition(0.05);
+                    dropTog = true;
+                }
+                else {
+                    robot.outakeServo3.setPosition(0.33);
+                    dropTog = false;
+                }
+
+                changed2 = true;
+            } else if(!(gamepad2.left_bumper)) {
+                changed2 = false;
+
+            }
+
+
+            telemetry.addData("left servo",robot.extensionServoLeft.getPosition());
+            telemetry.addData("right servo",robot.extensionServoRight.getPosition());
             telemetry.update();
 
         }
