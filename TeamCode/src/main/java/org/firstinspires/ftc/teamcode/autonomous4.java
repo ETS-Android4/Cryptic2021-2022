@@ -16,14 +16,16 @@ public class autonomous4 extends LinearOpMode {
         robot.initialize(this);
         SampleTankDrive drive = new SampleTankDrive(hardwareMap);
 
-        // We want to start the bot at x: 10, y: -8, heading: 90 degrees
+        // We want to start the bot at x: -12, y: 66, heading: 90 degrees
         Pose2d startPose = new Pose2d(-12, 66, Math.toRadians(270));
 
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence traj1 = drive.trajectorySequenceBuilder(startPose)
+                // Robot drives straight forward to the shipping hub
                 .lineTo(new Vector2d(-12, 36))
                 .waitSeconds(3)
+                // Robot drops the freight on the top row
                 .addDisplacementMarker(() -> {
                     robot.extensionServoLeft.setPosition(0.9);
                     robot.extensionServoRight.setPosition(0.9);
@@ -31,6 +33,7 @@ public class autonomous4 extends LinearOpMode {
                     robot.outakeServo4.setPosition(0.722);
                 })
                 .waitSeconds(3)
+                // Robot resets outake to original position
                 .addDisplacementMarker(() -> {
                     robot.extensionServoLeft.setPosition(0);
                     robot.extensionServoRight.setPosition(0);
@@ -38,6 +41,7 @@ public class autonomous4 extends LinearOpMode {
                     robot.outakeServo4.setPosition(0);
                 })
                 .waitSeconds(3)
+                // Robot drives back to the warehouse
                 .lineTo(new Vector2d(-12, 52))
                 .splineTo(new Vector2d(10, 66), Math.toRadians(0))
                 .lineTo(new Vector2d(55, 66))

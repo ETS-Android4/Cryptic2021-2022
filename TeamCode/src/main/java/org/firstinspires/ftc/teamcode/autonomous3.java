@@ -17,7 +17,7 @@ public class autonomous3 extends LinearOpMode {
         SampleTankDrive drive = new SampleTankDrive(hardwareMap);
 
         // We want to start the bot at x: 10, y: -8, heading: 90 degrees
-        Pose2d startPose = new Pose2d(-12, -66, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(-12, -66, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose);
 
