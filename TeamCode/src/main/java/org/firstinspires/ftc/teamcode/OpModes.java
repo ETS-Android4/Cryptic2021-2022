@@ -32,9 +32,9 @@ public class OpModes extends LinearOpMode {
         while(opModeIsActive()){
 
             //basic drivetrain functions
-            forward = gamepad1.left_trigger - gamepad1.right_trigger -gamepad1.left_stick_y;
+            forward = gamepad1.left_trigger - gamepad1.right_trigger + gamepad1.left_stick_y;
             //cause why not
-            turn = gamepad1.right_stick_x * 0.9;
+            turn = gamepad1.right_stick_x * -0.9;
             //turning is too sensitive''
 
             if(gamepad1.right_bumper){
@@ -48,8 +48,8 @@ public class OpModes extends LinearOpMode {
             forward*=factor;
             turn*=factor;
 
-            double leftPower = (forward + turn);
-            double rightPower = (forward - turn);
+            double leftPower = ((forward + turn));
+            double rightPower = (forward - turn)*1.05;
             double denominator = Math.max(Math.max(Math.abs(leftPower), Math.abs(rightPower)), 1);
             leftPower /= denominator;
             rightPower /= denominator;
@@ -59,6 +59,9 @@ public class OpModes extends LinearOpMode {
             robot.rightBack.setPower(rightPower);
             robot.leftBack.setPower(leftPower);
             robot.leftFront.setPower(leftPower);
+
+            telemetry.addData("left power",leftPower);
+            telemetry.addData("right power",rightPower);
 
 
 
@@ -73,11 +76,10 @@ public class OpModes extends LinearOpMode {
 
 
 
-
             //intake
             if(gamepad2.left_stick_y > 0.5){
                 robot.intakeMotor.setPower(-0.9);
-                robot.intakeServo.setPosition(0);
+                robot.intakeServo.setPosition(0.05);
                 telemetry.addData("Y", 0);
             }
 
@@ -108,15 +110,18 @@ public class OpModes extends LinearOpMode {
 
             //outtake transportation sequence
 
-            if((mytimer.time()>0 && mytimer.time()<2) && (starts)){
+            if((mytimer.time()>0 && mytimer.time()<0.8) && (starts)){
                 robot.intakeServo.setPosition(1);
+                robot.transServo.setPosition(0.85);
             }
-            else if((mytimer.time()>1.5 && mytimer.time()<3) && (starts)){
-                robot.intakeMotor.setPower(1);
+            else if((mytimer.time()>0.8 && mytimer.time()<1.4) && (starts)){
+                robot.intakeMotor.setPower(-1);
             }
             else if (intakeServoState == 1){
                 robot.intakeServo.setPosition(.3);
+                robot.transServo.setPosition(1);
                 robot.intakeMotor.setPower(0);
+
                 intakeServoState = 0;
             }
 
@@ -209,9 +214,11 @@ public class OpModes extends LinearOpMode {
 
             if(gamepad2.left_trigger>0.5 && !changed) {
                 if(sss == 0.6) {
+
+                    //up position (dont take my words for it)
                     robot.extensionServoLeft.setPosition(0.95);
                     robot.extensionServoRight.setPosition(0);
-                    robot.outakeServo3.setPosition(0.15);
+                    robot.outakeServo3.setPosition(0.17);
                     sss = 1;
                 }
                 else {
@@ -226,7 +233,9 @@ public class OpModes extends LinearOpMode {
             } else if(!(gamepad2.left_trigger>0.5)) changed = false;
 
             if (gamepad2.left_bumper && !changed2){
+
                 if(!dropTog) {
+                    //drop
                     robot.outakeServo3.setPosition(0.05);
                     dropTog = true;
                 }
