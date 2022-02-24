@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-
+import org.firstinspires.ftc.teamcode.eyesight.Pipe_lineUtil;
 
 public class Robot {
     public DcMotor leftFront;
@@ -27,6 +27,7 @@ public class Robot {
     public Servo outakeServo4;
     public Servo capstone;
     private ConceptTensorFlowObjectDetectionWebcam objDetection;
+    public Pipe_lineUtil dick;
 
 
     DcMotor intakeMotor;
@@ -34,6 +35,9 @@ public class Robot {
     public Servo transServo;
 
     public void initialize(LinearOpMode opMode) {
+        dick = new Pipe_lineUtil(opMode.hardwareMap, "Webcam 1" , opMode.telemetry);
+        dick.init();
+
         objDetection = new ConceptTensorFlowObjectDetectionWebcam();
         intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intakeM");
         intakeServo = opMode.hardwareMap.get(Servo.class, "intakeS");
@@ -73,15 +77,14 @@ public class Robot {
 //       leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //       rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        capstone.setPosition(0);
         intakeServo.setPosition(0);
         transServo.setPosition(1);
         extensionServoLeft.setPosition(0.27);
         extensionServoRight.setPosition(1);
         outakeServo3.setPosition(0.33);
-
-        capstone.setPosition(0);
-
-
+        opMode.telemetry.addLine("inated");
+        opMode.telemetry.update();
 
 
     }

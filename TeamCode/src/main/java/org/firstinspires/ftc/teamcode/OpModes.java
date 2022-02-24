@@ -29,8 +29,9 @@ public class OpModes extends LinearOpMode {
         boolean dropTog = false;
         ElapsedTime mytimer = new ElapsedTime();
         boolean outtake_toggle = true;
-        int capserval = 0;
+        double capserval = 0;
         while(opModeIsActive()){
+            telemetry.addData("position",robot.dick.getBarcodePosition());
 
             //basic drivetrain functions
             forward = gamepad1.left_trigger - gamepad1.right_trigger + gamepad1.left_stick_y;
@@ -100,17 +101,11 @@ public class OpModes extends LinearOpMode {
 
             }
 
-            capserval += (-gamepad2.right_stick_y * 0.1);
+            capserval = capserval + (-gamepad2.right_stick_y * 0.001);
+            capserval = Math.max(Math.min(capserval, 1), 0);
 
-//            robot.capstone.setPosition(capserval);
+            robot.capstone.setPosition(capserval);
             telemetry.addData("capstone servo value",capserval);
-
-
-
-
-
-
-
 
 
 
