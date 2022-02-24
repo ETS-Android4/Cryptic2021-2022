@@ -29,6 +29,7 @@ public class OpModes extends LinearOpMode {
         boolean dropTog = false;
         ElapsedTime mytimer = new ElapsedTime();
         boolean outtake_toggle = true;
+        int capserval = 0;
         while(opModeIsActive()){
 
             //basic drivetrain functions
@@ -99,9 +100,14 @@ public class OpModes extends LinearOpMode {
 
             }
 
-            if (gamepad2.a) {
-                robot.intakeServo.setPosition(0.6);
-            }
+            capserval += (-gamepad2.right_stick_y * 0.1);
+
+//            robot.capstone.setPosition(capserval);
+            telemetry.addData("capstone servo value",capserval);
+
+
+
+
 
 
 

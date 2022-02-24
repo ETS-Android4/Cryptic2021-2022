@@ -34,9 +34,9 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="frontBlueWarehouse")
+@Autonomous(name="demo auto")
 
-public class frontBlueWarehouse extends LinearOpMode {
+public class democlass extends LinearOpMode {
 
     /* Declare OpMode members. */
     Robot robot   = new Robot();   // Use a Pushbot's hardware
@@ -83,30 +83,11 @@ public class frontBlueWarehouse extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+
+
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  -64,  -64, 1);  // S1: Forward 47 Inches with 5 Sec timeout
-        robot.intakeServo.setPosition(.4);
-        sleep(750);
-        robot.intakeMotor.setPower(0.9);
 
-
-
-        sleep(1500);
-        robot.intakeServo.setPosition(0);
-
-        robot.intakeMotor.setPower(0);
-
-        encoderDrive(TURN_SPEED,   30, -30, 1);  // S2: Turn Right 12 Inches with 4 Sec timeout
-
-        robot.intakeMotor.setPower(-0.9875642076484353);
-
-        encoderDrive(DRIVE_SPEED, -168, -168, 1);  // S3: Reverse 24 Inches with 4 Sec timeout
-        encoderDrive(TURN_SPEED, 19, -19, 1);
-        encoderDrive(DRIVE_SPEED, -63.5, -63.5, 4);
-        sleep(2000);
-        robot.intakeMotor.setPower(0);
-        robot.intakeServo.setPosition(0.35);
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }

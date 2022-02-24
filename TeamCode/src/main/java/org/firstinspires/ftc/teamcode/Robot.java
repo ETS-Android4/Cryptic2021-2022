@@ -8,7 +8,11 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 
 public class Robot {
@@ -21,13 +25,16 @@ public class Robot {
     public Servo extensionServoRight;
     public Servo outakeServo3;
     public Servo outakeServo4;
+    public Servo capstone;
+    private ConceptTensorFlowObjectDetectionWebcam objDetection;
 
 
     DcMotor intakeMotor;
     Servo intakeServo;
     public Servo transServo;
-    public void initialize(LinearOpMode opMode) {
 
+    public void initialize(LinearOpMode opMode) {
+        objDetection = new ConceptTensorFlowObjectDetectionWebcam();
         intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intakeM");
         intakeServo = opMode.hardwareMap.get(Servo.class, "intakeS");
         transServo = opMode.hardwareMap.get(Servo.class, "trans");
@@ -42,6 +49,10 @@ public class Robot {
         leftBack = opMode.hardwareMap.get(DcMotor.class, "lb");
         rightBack = opMode.hardwareMap.get(DcMotor.class, "rb");
         duckWheel = opMode.hardwareMap.get(DcMotor.class, "duckwheel");
+
+        capstone = opMode.hardwareMap.get(Servo.class, "cap");
+
+        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
 
         //to make robot wheels spin the same way bc the motor inverts the other side's wheels
         //reversing the one side of the robot's wheels direction
@@ -67,6 +78,9 @@ public class Robot {
         extensionServoLeft.setPosition(0.27);
         extensionServoRight.setPosition(1);
         outakeServo3.setPosition(0.33);
+
+        capstone.setPosition(0);
+
 
 
 
