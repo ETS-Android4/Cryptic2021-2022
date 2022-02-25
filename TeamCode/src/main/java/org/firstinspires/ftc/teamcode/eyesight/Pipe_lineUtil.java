@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.eyesight;
 
 import android.util.Log;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -28,6 +29,8 @@ public class Pipe_lineUtil {
         webcam = OpenCvCameraFactory.getInstance( ).createWebcam( hardwareMap.get( WebcamName.class, webcamName ), cameraMonitorViewId );
         pipeline = new Pipe_line( telemetry );
         webcam.setPipeline( pipeline );
+
+        FtcDashboard.getInstance().startCameraStream(webcam, 0);
     }
 
     public void init( ) {
