@@ -17,7 +17,7 @@ public class Pipe_line extends OpenCvPipeline {
     }
 
 
-    public Pipe_line(Telemetry telemetry, Team team) {
+    public  Pipe_line(Telemetry telemetry, Team team) {
         this.telemetry = telemetry;
         this.team = team;
     }

@@ -20,7 +20,7 @@ public class Pipe_lineUtil {
         this(hardwareMap, webcamName, telemetry, Pipe_line.Team.BLUE);
     }
 
-    public Pipe_lineUtil(HardwareMap hardwareMap, String webcamName, Telemetry telemetry, Pipe_line.Team team) {
+    public  Pipe_lineUtil(HardwareMap hardwareMap, String webcamName, Telemetry telemetry, Pipe_line.Team team) {
         this.telemetry = telemetry;
         setup(hardwareMap, webcamName, team);
     }
