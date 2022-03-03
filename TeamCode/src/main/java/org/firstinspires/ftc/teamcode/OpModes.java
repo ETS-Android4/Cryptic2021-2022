@@ -65,7 +65,9 @@ public class OpModes extends LinearOpMode {
             telemetry.addData("left power",leftPower);
             telemetry.addData("right power",rightPower);
 
+            if(gamepad2.dpad_down) {
 
+            }
 
             //duckwheel
             if(gamepad2.x){

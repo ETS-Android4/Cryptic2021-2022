@@ -28,8 +28,10 @@ public class Robot {
     public Servo outakeServo3;
     public Servo outakeServo4;
     public Servo capstone;
+    public Servo trapdoor;
     private ConceptTensorFlowObjectDetectionWebcam objDetection;
     public Pipe_lineUtil dick;
+
 
 
     DcMotor intakeMotor;
@@ -59,6 +61,8 @@ public class Robot {
 
         capstone = opMode.hardwareMap.get(Servo.class, "cap");
 
+        trapdoor = opMode.hardwareMap.get(Servo.class,"td");
+
         // Loading trackables is not necessary for the TensorFlow Object Detection engine.
 
         //to make robot wheels spin the same way bc the motor inverts the other side's wheels
@@ -75,6 +79,8 @@ public class Robot {
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         duckWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+
+
 //       leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //       rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //       leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -83,6 +89,7 @@ public class Robot {
         capstone.setPosition(0);
         intakeServo.setPosition(0);
         transServo.setPosition(1);
+        trapdoor.setPosition(0.6);
         extensionServoLeft.setPosition(0.27);
         extensionServoRight.setPosition(1);
         outakeServo3.setPosition(0.33);
