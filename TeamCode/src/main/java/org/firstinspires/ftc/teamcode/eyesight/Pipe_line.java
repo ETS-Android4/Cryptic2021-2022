@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode.eyesight;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
+import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
@@ -18,14 +14,10 @@ public class Pipe_line extends OpenCvPipeline {
         LEFT,
         MIDDLE,
         RIGHT,
-        NOT_FOUND
     }
 
     private BarcodePosition barcodePosition;
 
-    static final Rect LEFT_ROI = new Rect(
-            new Point( 0, 0 ),
-            new Point( 426, 720 ) );
     static final Rect MIDDLE_ROI = new Rect(
             new Point( 426, 0 ),
             new Point( 852, 720 ) );
@@ -40,7 +32,6 @@ public class Pipe_line extends OpenCvPipeline {
     }
 
     public Mat processFrame( Mat input, String type ) {
-
         Imgproc.cvtColor( input, mat, Imgproc.COLOR_RGB2HSV );
         Scalar lowHSV;
         Scalar highHSV;
@@ -54,41 +45,36 @@ public class Pipe_line extends OpenCvPipeline {
         }
         Core.inRange( mat, lowHSV, highHSV, mat );
 
-        Mat left = mat.submat( LEFT_ROI );
         Mat middle = mat.submat( MIDDLE_ROI );
-        Mat right = mat.submat( RIGHT_ROI );
+        Mat right = mat.submat(RIGHT_ROI);
 
-        double leftValue = Core.sumElems( left ).val[0] / LEFT_ROI.area( ) / 255;
-        double middleValue = Core.sumElems( middle ).val[0] / MIDDLE_ROI.area( ) / 255;
-        double rightValue = Core.sumElems( right ).val[0] / RIGHT_ROI.area( ) / 255;
+        double middleValue = Core.sumElems(middle).val[0] / MIDDLE_ROI.area() / 255;
+        double rightValue = Core.sumElems(right).val[0] / RIGHT_ROI.area() / 255;
 
-        left.release( );
-        middle.release( );
-        right.release( );
+        middle.release();
+        right.release();
 
-        boolean leftBool = leftValue > PERCENT_COLOR_THRESHOLD;
         boolean middleBool = middleValue > PERCENT_COLOR_THRESHOLD;
         boolean rightBool = rightValue > PERCENT_COLOR_THRESHOLD;
 
-        if( rightBool ) {
+        telemetry.addData("middle", middleValue);
+        telemetry.addData("right", rightValue);
+
+        if (rightBool) {
             barcodePosition = BarcodePosition.RIGHT;
-            telemetry.addData( "Location", type + " right" );
-        } else if( leftBool ) {
-            barcodePosition = BarcodePosition.LEFT;
-            telemetry.addData( "Location", type + " left" );
-        } else if( middleBool ) {
+            telemetry.addData("Location", type + " right");
+        } else if (middleBool) {
             barcodePosition = BarcodePosition.MIDDLE;
-            telemetry.addData( "Location", type + " middle" );
+            telemetry.addData("Location", type + " middle");
         } else {
-            barcodePosition = BarcodePosition.NOT_FOUND;
-            telemetry.addData( "Location", type + " not found" );
+            barcodePosition = BarcodePosition.LEFT;
+            telemetry.addData("Location", type + " left");
         }
         Imgproc.cvtColor( mat, mat, Imgproc.COLOR_GRAY2RGB );
 
         Scalar elementColor = new Scalar( 255, 0, 0 );
         Scalar notElement = new Scalar( 0, 255, 0 );
 
-        Imgproc.rectangle( mat, LEFT_ROI, barcodePosition == BarcodePosition.LEFT ? notElement : elementColor );
         Imgproc.rectangle( mat, RIGHT_ROI, barcodePosition == BarcodePosition.RIGHT ? notElement : elementColor );
         Imgproc.rectangle( mat, MIDDLE_ROI, barcodePosition == BarcodePosition.MIDDLE ? notElement : elementColor );
         return mat;
