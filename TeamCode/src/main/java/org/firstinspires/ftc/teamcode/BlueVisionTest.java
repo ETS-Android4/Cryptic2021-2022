@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.eyesight.Pipe_line;
 public class BlueVisionTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Robot r = new Robot();
-        r.initialize(this, Pipe_line.Team.BLUE);
+        r.initBlueVision(this);
 
         waitForStart();
         while (opModeIsActive()) {
