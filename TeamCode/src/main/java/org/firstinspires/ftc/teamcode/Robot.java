@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.teamcode.eyesight.Pipe_line;
 import org.firstinspires.ftc.teamcode.eyesight.Pipe_lineUtil;
 
 public class Robot {
@@ -28,9 +29,9 @@ public class Robot {
     Servo intakeServo;
     public Servo transServo;
 
-    public void initialize(LinearOpMode opMode) {
+    public void initialize(LinearOpMode opMode, Pipe_line.Team team) {
         opMode.telemetry = new MultipleTelemetry(opMode.telemetry, FtcDashboard.getInstance().getTelemetry());
-        dick = new Pipe_lineUtil(opMode.hardwareMap, "Webcam 1" , opMode.telemetry);
+        dick = new Pipe_lineUtil(opMode.hardwareMap, "Webcam 1" , opMode.telemetry, team);
         dick.init();
 
         objDetection = new ConceptTensorFlowObjectDetectionWebcam();
@@ -87,5 +88,9 @@ public class Robot {
         opMode.telemetry.update();
 
 
+    }
+
+    public void initialize(LinearOpMode opMode) {
+        initialize(opMode, Pipe_line.Team.BLUE);
     }
 }

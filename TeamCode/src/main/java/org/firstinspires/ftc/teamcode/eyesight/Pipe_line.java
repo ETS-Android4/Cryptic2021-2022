@@ -6,46 +6,37 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 public class Pipe_line extends OpenCvPipeline {
-
     Telemetry telemetry;
-    Mat mat = new Mat( );
-
-    public enum BarcodePosition {
-        LEFT,
-        MIDDLE,
-        RIGHT,
-    }
-
     private BarcodePosition barcodePosition;
-
-    static final Rect MIDDLE_ROI = new Rect(
-            new Point( 426, 0 ),
-            new Point( 852, 720 ) );
-    static final Rect RIGHT_ROI = new Rect(
-            new Point( 852, 0 ),
-            new Point( 1278, 720 ) );
-
     static double PERCENT_COLOR_THRESHOLD = 0.02;
+    Team team;
+    Mat mat = new Mat();
 
-    public Pipe_line( Telemetry t ) {
-        telemetry = t;
+    public Pipe_line(Telemetry telemetry) {
+        this(telemetry, Team.BLUE);
     }
 
-    public Mat processFrame( Mat input, String type ) {
-        Imgproc.cvtColor( input, mat, Imgproc.COLOR_RGB2HSV );
-        Scalar lowHSV;
-        Scalar highHSV;
 
-        if( type.equalsIgnoreCase( "duck" ) ) {
-            lowHSV = new Scalar( 25, 25, 35 );
-            highHSV = new Scalar( 40, 255, 255 );
-        } else {
-            lowHSV = new Scalar( 40, 50, 70 );
-            highHSV = new Scalar( 65, 255, 255 );
-        }
-        Core.inRange( mat, lowHSV, highHSV, mat );
+    public Pipe_line(Telemetry telemetry, Team team) {
+        this.telemetry = telemetry;
+        this.team = team;
+    }
 
-        Mat middle = mat.submat( MIDDLE_ROI );
+    public Mat processBLUE(Mat input) {
+        Rect MIDDLE_ROI = new Rect(
+                new Point(426, 0),
+                new Point(852, 720));
+
+        Rect RIGHT_ROI = new Rect(
+                new Point(852, 0),
+                new Point(1278, 720));
+
+        Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
+        Scalar lowHSV = new Scalar(25, 25, 35);
+        Scalar highHSV = new Scalar(40, 255, 255);
+        Core.inRange(mat, lowHSV, highHSV, mat);
+
+        Mat middle = mat.submat(MIDDLE_ROI);
         Mat right = mat.submat(RIGHT_ROI);
 
         double middleValue = Core.sumElems(middle).val[0] / MIDDLE_ROI.area() / 255;
@@ -62,38 +53,101 @@ public class Pipe_line extends OpenCvPipeline {
 
         if (rightBool) {
             barcodePosition = BarcodePosition.RIGHT;
-            telemetry.addData("Location", type + " right");
+            telemetry.addData("Location", "Right");
         } else if (middleBool) {
             barcodePosition = BarcodePosition.MIDDLE;
-            telemetry.addData("Location", type + " middle");
+            telemetry.addData("Location", "Middle");
         } else {
             barcodePosition = BarcodePosition.LEFT;
-            telemetry.addData("Location", type + " left");
+            telemetry.addData("Location", "Left");
         }
-        Imgproc.cvtColor( mat, mat, Imgproc.COLOR_GRAY2RGB );
+//        Imgproc.cvtColor( mat, mat, Imgproc.COLOR_GRAY2RGB );
 
-        Scalar elementColor = new Scalar( 255, 0, 0 );
-        Scalar notElement = new Scalar( 0, 255, 0 );
+        Scalar elementColor = new Scalar(255, 0, 0);
+        Scalar notElement = new Scalar(0, 255, 0);
 
-        Imgproc.rectangle( mat, RIGHT_ROI, barcodePosition == BarcodePosition.RIGHT ? notElement : elementColor );
-        Imgproc.rectangle( mat, MIDDLE_ROI, barcodePosition == BarcodePosition.MIDDLE ? notElement : elementColor );
+        Imgproc.rectangle(mat, RIGHT_ROI, barcodePosition == BarcodePosition.RIGHT ? notElement : elementColor);
+        Imgproc.rectangle(mat, MIDDLE_ROI, barcodePosition == BarcodePosition.MIDDLE ? notElement : elementColor);
+        return mat;
+    }
+
+    public Mat processRED(Mat input) {
+        Rect LEFT_ROI = new Rect(
+                new Point(426, 0),
+                new Point(852, 720));
+        Rect MIDDLE_ROI = new Rect(
+                new Point(852, 0),
+                new Point(1278, 720));
+
+        Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
+        Scalar lowHSV = new Scalar(25, 25, 35);
+        Scalar highHSV = new Scalar(40, 255, 255);
+
+        Core.inRange(mat, lowHSV, highHSV, mat);
+
+        Mat left = mat.submat(LEFT_ROI);
+        Mat middle = mat.submat(MIDDLE_ROI);
+
+        double leftValue = Core.sumElems(left).val[0] / LEFT_ROI.area() / 255;
+        double middleValue = Core.sumElems(middle).val[0] / MIDDLE_ROI.area() / 255;
+
+        left.release();
+        middle.release();
+
+        boolean leftBool = leftValue > PERCENT_COLOR_THRESHOLD;
+        boolean middleBool = middleValue > PERCENT_COLOR_THRESHOLD;
+
+        telemetry.addData("left", leftValue);
+        telemetry.addData("middle", middleValue);
+
+        if (middleBool) {
+            barcodePosition = BarcodePosition.MIDDLE;
+            telemetry.addData("Location", "Middle");
+        } else if (leftBool) {
+            barcodePosition = BarcodePosition.LEFT;
+            telemetry.addData("Location", "Left");
+        } else {
+            barcodePosition = BarcodePosition.RIGHT;
+            telemetry.addData("Location", "Right");
+        }
+
+        Scalar elementColor = new Scalar(255, 0, 0);
+        Scalar notElement = new Scalar(0, 255, 0);
+
+        Imgproc.rectangle(mat, LEFT_ROI, barcodePosition == BarcodePosition.LEFT ? notElement : elementColor);
+        Imgproc.rectangle(mat, MIDDLE_ROI, barcodePosition == BarcodePosition.MIDDLE ? notElement : elementColor);
         return mat;
     }
 
     @Override
-    public Mat processFrame( Mat input ) {
+    public Mat processFrame(Mat input) {
 
-        Mat elementImage = processFrame( input, "element" );
-        Mat duckImage = processFrame( input, "duck" );
-        double elementValue = Core.sumElems( elementImage ).val[0] / (elementImage.rows( ) * elementImage.cols( )) / 255;
-        double duckValue = Core.sumElems( duckImage ).val[0] / (duckImage.rows( ) * duckImage.cols( )) / 255;
-        telemetry.update( );
-        if( elementValue < duckValue )
-            return duckImage;
-        return elementImage;
+//        Mat elementImage = processFrame( input, "element" );
+        Mat duckImage;
+        if (team == Team.BLUE)
+            duckImage = processBLUE(input);
+        else
+            duckImage = processRED(input);
+        return duckImage;
     }
 
-    public BarcodePosition getBarcodePosition( ) {
+    public BarcodePosition getBarcodePosition() {
         return barcodePosition;
+    }
+
+    public enum BarcodePosition {
+        LEFT,
+        MIDDLE,
+        RIGHT,
+    }
+
+    public enum Team {
+        RED,
+        BLUE
+    }
+
+    public enum TEAM {
+        RED,
+        BLUE,
     }
 }

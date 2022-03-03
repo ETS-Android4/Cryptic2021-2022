@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.eyesight;
 
 import android.util.Log;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -18,22 +16,26 @@ public class Pipe_lineUtil {
     private OpenCvWebcam webcam;
     private Pipe_line pipeline;
 
-    public Pipe_lineUtil( HardwareMap hardwareMap, String webcamName, Telemetry telemetry ) {
-        this.telemetry = telemetry;
-        setup( hardwareMap, webcamName );
+    public Pipe_lineUtil(HardwareMap hardwareMap, String webcamName, Telemetry telemetry) {
+        this(hardwareMap, webcamName, telemetry, Pipe_line.Team.BLUE);
     }
 
-    public void setup( HardwareMap hardwareMap, String webcamName ) {
+    public Pipe_lineUtil(HardwareMap hardwareMap, String webcamName, Telemetry telemetry, Pipe_line.Team team) {
+        this.telemetry = telemetry;
+        setup(hardwareMap, webcamName, team);
+    }
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources( ).getIdentifier( "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName( ) );
-        webcam = OpenCvCameraFactory.getInstance( ).createWebcam( hardwareMap.get( WebcamName.class, webcamName ), cameraMonitorViewId );
-        pipeline = new Pipe_line( telemetry );
-        webcam.setPipeline( pipeline );
+    public void setup(HardwareMap hardwareMap, String webcamName, Pipe_line.Team team) {
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
+        pipeline = new Pipe_line(telemetry, team);
+        webcam.setPipeline(pipeline);
 
         FtcDashboard.getInstance().startCameraStream(webcam, 0);
     }
 
-    public void init( ) {
+    public void init() {
         openCameraDevice( );
     }
 
