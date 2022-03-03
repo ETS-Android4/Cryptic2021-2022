@@ -145,9 +145,4 @@ public class Pipe_line extends OpenCvPipeline {
         RED,
         BLUE
     }
-
-    public enum TEAM {
-        RED,
-        BLUE,
-    }
 }

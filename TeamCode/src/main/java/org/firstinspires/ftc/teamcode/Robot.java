@@ -29,64 +29,18 @@ public class Robot {
     Servo intakeServo;
     public Servo transServo;
 
-    public void initialize(LinearOpMode opMode, Pipe_line.Team team) {
-        opMode.telemetry = new MultipleTelemetry(opMode.telemetry, FtcDashboard.getInstance().getTelemetry());
-        dick = new Pipe_lineUtil(opMode.hardwareMap, "Webcam 1" , opMode.telemetry, team);
+    public void initRedVision(LinearOpMode opMode) {
+        dick = new Pipe_lineUtil(opMode.hardwareMap, "Webcam 1" , opMode.telemetry, Pipe_line.Team.RED);
         dick.init();
 
-        objDetection = new ConceptTensorFlowObjectDetectionWebcam();
-        intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intakeM");
-        intakeServo = opMode.hardwareMap.get(Servo.class, "intakeS");
-        transServo = opMode.hardwareMap.get(Servo.class, "trans");
+        initialize(opMode);
+    }
 
-        extensionServoLeft = opMode.hardwareMap.get(Servo.class, "osl");
-        extensionServoRight = opMode.hardwareMap.get(Servo.class, "osr");
-        outakeServo3 = opMode.hardwareMap.get(Servo.class, "outakeS3");
-        outakeServo4 = opMode.hardwareMap.get(Servo.class, "outakeS4");
+    public void initBlueVision(LinearOpMode opMode) {
+        dick = new Pipe_lineUtil(opMode.hardwareMap, "Webcam 1" , opMode.telemetry, Pipe_line.Team.BLUE);
+        dick.init();
 
-        leftFront = opMode.hardwareMap.get(DcMotor.class, "lf");
-        rightFront = opMode.hardwareMap.get(DcMotor.class, "rf");
-        leftBack = opMode.hardwareMap.get(DcMotor.class, "lb");
-        rightBack = opMode.hardwareMap.get(DcMotor.class, "rb");
-        duckWheel = opMode.hardwareMap.get(DcMotor.class, "duckwheel");
-
-        capstone = opMode.hardwareMap.get(Servo.class, "cap");
-
-        trapdoor = opMode.hardwareMap.get(Servo.class,"td");
-
-        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
-
-        //to make robot wheels spin the same way bc the motor inverts the other side's wheels
-        //reversing the one side of the robot's wheels direction
-        //bc the motor inverts the other side's wheels
-        //therefore being able to travel forward
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        //to make robot stop when youre not moving the sticks
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        duckWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
-
-//       leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//       rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//       leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//       rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        capstone.setPosition(0);
-        intakeServo.setPosition(0);
-        transServo.setPosition(1);
-        trapdoor.setPosition(0.6);
-        extensionServoLeft.setPosition(0.27);
-        extensionServoRight.setPosition(1);
-        outakeServo3.setPosition(0.33);
-        opMode.telemetry.addLine("inated");
-        opMode.telemetry.update();
-
+        initialize(opMode);
     }
 
     public void initialize(LinearOpMode opMode) {
