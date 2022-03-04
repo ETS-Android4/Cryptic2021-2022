@@ -31,7 +31,15 @@ public class OpModes extends LinearOpMode {
         boolean outtake_toggle = true;
         double capserval = 0;
         while(opModeIsActive()){
-            telemetry.addData("position",robot.dick.getBarcodePosition());
+//
+//
+//
+//
+//
+//
+//
+//
+//            telemetry.addData("position",robot.dick.getBarcodePosition());
 
             //basic drivetrain functions
             forward = gamepad1.left_trigger - gamepad1.right_trigger + gamepad1.left_stick_y;

@@ -90,7 +90,7 @@ public class Robot {
         capstone.setPosition(0);
         intakeServo.setPosition(0);
         transServo.setPosition(1);
-        trapdoor.setPosition(0.6);
+        trapdoor.setPosition(0.2);
         extensionServoLeft.setPosition(0.27);
         extensionServoRight.setPosition(1);
         outakeServo3.setPosition(0.33);
