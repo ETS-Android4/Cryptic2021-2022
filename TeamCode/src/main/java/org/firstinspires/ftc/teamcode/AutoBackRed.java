@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
+//import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
  * This file illustrates the concept of driving a path based on encoder counts.
@@ -34,9 +34,9 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="frontRedWarehouse")
+@Autonomous(name="AutoBackRed")
 
-public class visiontest extends LinearOpMode {
+public class AutoBackRed extends LinearOpMode {
 
     /* Declare OpMode members. */
     Robot robot   = new Robot();   // Use a Pushbot's hardware
@@ -47,8 +47,8 @@ public class visiontest extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 3.77953 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.6;
-    static final double     TURN_SPEED              = 0.5;
+    static final double     DRIVE_SPEED             = 0.4;
+    static final double     TURN_SPEED              = 0.3;
 
     @Override
     public void runOpMode() {
@@ -86,6 +86,54 @@ public class visiontest extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
 
+        // encoderDrive(DRIVE_SPEED,  -64,  -64, 1);  // S1: Forward 47 Inches with 5 Sec timeout
+        //drive_speed - how fast its gonna move
+        //turn_speed - when left and right diff
+        //left+ right- - turn left
+        //left- right+ - turn right
+        //left inches - how much left side of wheels should spin
+        //right inches - how much right side of wheels should spin
+        //go foward = -#
+        //timeout - wait how many secs before go into the next command
+
+
+        //1 block = 30 in --> ~16 in on robot
+        //spin wheel
+        encoderDrive(DRIVE_SPEED, -50,-50, 1, 0);//forward 1
+        encoderDrive(0.1, -37,-37, 1, 250);
+        robot.duckWheel.setPower(.4);
+        sleep(3400);
+        robot.duckWheel.setPower(0);
+        encoderDrive(0.2, 10, 10, 1,0);
+        encoderDrive(TURN_SPEED, 9.5,-9.5, 1, 250); //l 45
+        encoderDrive(DRIVE_SPEED, 165,165 , 3, 250); //f 2
+
+//        encoderDrive(DRIVE_SPEED, -40,-40, 1); //b 2
+        encoderDrive(TURN_SPEED, 26,-26, 1, 250); //l 45
+//        encoderDrive(DRIVE_SPEED, 30,30, 1, 250); //f .5
+        //outtake - drop the box
+
+//        encoderDrive(DRIVE_SPEED, -65,-65, 1, 250); //b .5
+        encoderDrive(TURN_SPEED, 37,-37, 1, 250); //l 45
+        encoderDrive(DRIVE_SPEED, -130,-130,2,100);
+        encoderDrive(DRIVE_SPEED, -70, -70, 3, 250); //f 2
+
+
+
+//        //drop the box onto tier
+//        encoderDrive(DRIVE_SPEED,135,135,1);//back 2
+//        encoderDrive(TURN_SPEED, 30,-30, 1); //90 left ----> 60=180
+//        encoderDrive(DRIVE_SPEED, 45,45, 1);//back .5 to get to hub
+//        //code - drop the thing?
+//
+//
+//        encoderDrive(DRIVE_SPEED, -45,-45,1);//f .5\
+//        encoderDrive(TURN_SPEED, -30,-30,1);//90 left
+//        encoderDrive(DRIVE_SPEED,170,170,1);//f 2.5 curve ish
+
+
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
     }
 
     /*
@@ -98,7 +146,7 @@ public class visiontest extends LinearOpMode {
      */
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
-                             double timeoutS) {
+                             double timeoutS, int wait) {
         int newLeftTarget;
         int newRightTarget;
 
@@ -155,7 +203,7 @@ public class visiontest extends LinearOpMode {
             robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            sleep(250);   // optional pause after each move
+            sleep(wait);   // optional pause after each move
         }
     }
 }

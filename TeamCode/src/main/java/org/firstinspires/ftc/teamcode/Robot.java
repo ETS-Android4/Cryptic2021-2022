@@ -7,8 +7,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.eyesight.Pipe_line;
 import org.firstinspires.ftc.teamcode.eyesight.Pipe_lineUtil;
+import org.firstinspires.ftc.teamcode.ConceptTensorFlowObjectDetectionWebcam;
+
+import java.util.List;
 
 public class Robot {
     public DcMotor leftFront;
@@ -24,6 +28,7 @@ public class Robot {
     public Servo trapdoor;
     private ConceptTensorFlowObjectDetectionWebcam objDetection;
     public Pipe_lineUtil dick;
+    public String bar;
 
     DcMotor intakeMotor;
     Servo intakeServo;
@@ -44,7 +49,6 @@ public class Robot {
     }
 
     public void initialize(LinearOpMode opMode) {
-        objDetection = new ConceptTensorFlowObjectDetectionWebcam();
         intakeMotor = opMode.hardwareMap.get(DcMotor.class, "intakeM");
         intakeServo = opMode.hardwareMap.get(Servo.class, "intakeS");
         transServo = opMode.hardwareMap.get(Servo.class, "trans");
@@ -94,7 +98,29 @@ public class Robot {
         extensionServoLeft.setPosition(0.27);
         extensionServoRight.setPosition(1);
         outakeServo3.setPosition(0.33);
+
+        if(objDetection.bar.equals("left")){
+            //top
+//            robot.extensionServoLeft.setPosition(0.95);
+//            robot.extensionServoRight.setPosition(0);
+//            robot.outakeServo3.setPosition(0.17);
+//            sleep(5000);
+//            robot.outakeServo3.setPosition(0.05);
+            opMode.telemetry.addData("position", "left");
+        }else if(objDetection.bar.equals("middle")){
+            //middle
+//            robot.outakeServo3.setPosition(0.05);
+            opMode.telemetry.addData("position", "middle");
+        }else {
+            //bottom
+//            encoderDrive(DRIVE_SPEED, -10, -10, 1, 150); //f 2
+//            robot.outakeServo3.setPosition(0.05);
+            opMode.telemetry.addData("position", "right");
+        }
         opMode.telemetry.addLine("inated");
+
+
         opMode.telemetry.update();
+
     }
 }

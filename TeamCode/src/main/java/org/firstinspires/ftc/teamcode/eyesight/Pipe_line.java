@@ -24,11 +24,11 @@ public class Pipe_line extends OpenCvPipeline {
 
     public Mat processBLUE(Mat input) {
         Rect MIDDLE_ROI = new Rect(
-                new Point(426, 0),
-                new Point(852, 720));
+                new Point(0, 0),
+                new Point(639, 720));
 
         Rect RIGHT_ROI = new Rect(
-                new Point(852, 0),
+                new Point(639, 0),
                 new Point(1278, 720));
 
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
@@ -46,7 +46,7 @@ public class Pipe_line extends OpenCvPipeline {
         right.release();
 
         boolean middleBool = middleValue > PERCENT_COLOR_THRESHOLD;
-        boolean rightBool = rightValue > 0.005;
+        boolean rightBool = rightValue > PERCENT_COLOR_THRESHOLD;
 
         telemetry.addData("middle", middleValue);
         telemetry.addData("right", rightValue);
@@ -74,9 +74,9 @@ public class Pipe_line extends OpenCvPipeline {
     public Mat processRED(Mat input) {
         Rect LEFT_ROI = new Rect(
                 new Point(0, 0),
-                new Point(852, 720));
+                new Point(639, 720));
         Rect MIDDLE_ROI = new Rect(
-                new Point(852, 0),
+                new Point(639, 0),
                 new Point(1278, 720));
 
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
@@ -94,7 +94,7 @@ public class Pipe_line extends OpenCvPipeline {
         left.release();
         middle.release();
 
-        boolean leftBool = leftValue > 0.005;
+        boolean leftBool = leftValue > PERCENT_COLOR_THRESHOLD;
         boolean middleBool = middleValue > PERCENT_COLOR_THRESHOLD;
 
         telemetry.addData("left", leftValue);

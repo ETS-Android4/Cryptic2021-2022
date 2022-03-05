@@ -74,7 +74,11 @@ public class OpModes extends LinearOpMode {
             telemetry.addData("right power",rightPower);
 
             if(gamepad2.dpad_down) {
+                robot.trapdoor.setPosition(0.4);
+            }
 
+            if (gamepad2.dpad_up) {
+                robot.trapdoor.setPosition(0.7);
             }
 
             //duckwheel
@@ -230,7 +234,9 @@ public class OpModes extends LinearOpMode {
                     robot.extensionServoLeft.setPosition(0.95);
                     robot.extensionServoRight.setPosition(0);
                     robot.outakeServo3.setPosition(0.17);
+                    robot.trapdoor.setPosition(0.7);
                     sss = 1;
+
                 }
                 else {
                     robot.extensionServoLeft.setPosition(0.27);
