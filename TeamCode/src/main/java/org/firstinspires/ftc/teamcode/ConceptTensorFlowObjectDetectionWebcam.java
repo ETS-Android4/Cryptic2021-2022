@@ -100,7 +100,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
      * localization engine.
      */
     private VuforiaLocalizer vuforia;
-    public String bar = "right";
+    public static String bar = "right";
 
     /**
      * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
@@ -123,7 +123,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            tfod.setZoom(1.6, 20/9.0);
+            tfod.setZoom(1.9, 35/9.0);
 
         }
 

@@ -91,32 +91,35 @@ public class Robot {
 //       leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //       rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        capstone.setPosition(0);
+        capstone.setPosition(0.4);
         intakeServo.setPosition(0);
         transServo.setPosition(1);
-        trapdoor.setPosition(0.2);
+        trapdoor.setPosition(0.7);
         extensionServoLeft.setPosition(0.27);
         extensionServoRight.setPosition(1);
         outakeServo3.setPosition(0.33);
 
-        if(objDetection.bar.equals("left")){
-            //top
-//            robot.extensionServoLeft.setPosition(0.95);
-//            robot.extensionServoRight.setPosition(0);
-//            robot.outakeServo3.setPosition(0.17);
-//            sleep(5000);
-//            robot.outakeServo3.setPosition(0.05);
-            opMode.telemetry.addData("position", "left");
-        }else if(objDetection.bar.equals("middle")){
-            //middle
-//            robot.outakeServo3.setPosition(0.05);
-            opMode.telemetry.addData("position", "middle");
-        }else {
-            //bottom
-//            encoderDrive(DRIVE_SPEED, -10, -10, 1, 150); //f 2
-//            robot.outakeServo3.setPosition(0.05);
-            opMode.telemetry.addData("position", "right");
-        }
+
+       // objDetection = new ConceptTensorFlowObjectDetectionWebcam(opMode);
+
+//        if(objDetection.bar.equals("left")){
+//            //top
+////            robot.extensionServoLeft.setPosition(0.95);
+////            robot.extensionServoRight.setPosition(0);
+////            robot.outakeServo3.setPosition(0.17);
+////            sleep(5000);
+////            robot.outakeServo3.setPosition(0.05);
+//            opMode.telemetry.addData("position", "left");
+//        }else if(objDetection.bar.equals("middle")){
+//            //middle
+////            robot.outakeServo3.setPosition(0.05);
+//            opMode.telemetry.addData("position", "middle");
+//        }else {
+//            //bottom
+////            encoderDrive(DRIVE_SPEED, -10, -10, 1, 150); //f 2
+////            robot.outakeServo3.setPosition(0.05);
+//            opMode.telemetry.addData("position", "right");
+//        }
         opMode.telemetry.addLine("inated");
 
 

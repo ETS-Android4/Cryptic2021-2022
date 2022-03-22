@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.eyesight.Pipe_line;
 //import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
@@ -79,10 +80,14 @@ public class AutoBackRed extends LinearOpMode {
 
                 robot.rightFront.getCurrentPosition());
         telemetry.update();
-
+        robot.initRedVision(this);
+        while (!opModeIsActive()) {
+            telemetry.update();
+        }
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+        Pipe_line.BarcodePosition pos = robot.dick.getBarcodePosition();
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
 
@@ -99,37 +104,50 @@ public class AutoBackRed extends LinearOpMode {
 
         //1 block = 30 in --> ~16 in on robot
         //spin wheel
-        encoderDrive(DRIVE_SPEED, -50,-50, 1, 0);//forward 1
-        encoderDrive(0.1, -37,-37, 1, 250);
-        robot.duckWheel.setPower(.4);
-        sleep(3400);
+        encoderDrive(DRIVE_SPEED, -65,-65, 1, 0);//forward 1
+        encoderDrive(0.1, -40,-40, 1, 250);
+        robot.duckWheel.setPower(.5);
+        sleep(2000);
         robot.duckWheel.setPower(0);
-        encoderDrive(0.2, 10, 10, 1,0);
-        encoderDrive(TURN_SPEED, 9.5,-9.5, 1, 250); //l 45
-        encoderDrive(DRIVE_SPEED, 165,165 , 3, 250); //f 2
+        encoderDrive(0.2, 10, 10, 1,0);//scoot foward
+        encoderDrive(TURN_SPEED, 14,-14, 1, 250); //turn a wee
+        encoderDrive(DRIVE_SPEED, 180,180, 3, 250); //f to hub
 
-//        encoderDrive(DRIVE_SPEED, -40,-40, 1); //b 2
-        encoderDrive(TURN_SPEED, 26,-26, 1, 250); //l 45
-//        encoderDrive(DRIVE_SPEED, 30,30, 1, 250); //f .5
-        //outtake - drop the box
+        encoderDrive(TURN_SPEED, 23,-23, 1, 250); //l 45
+        //outtake code to drop freight
+        if (pos == Pipe_line.BarcodePosition.LEFT) {
+            //top
+            robot.extensionServoLeft.setPosition(0.95);
+            robot.extensionServoRight.setPosition(0);
+            robot.outakeServo3.setPosition(0.17);
+            sleep(5000);
+            robot.outakeServo3.setPosition(0.03);
+            telemetry.addData("position", "left");
+        } else if (pos == Pipe_line.BarcodePosition.RIGHT) {
+            //middle
+            encoderDrive(DRIVE_SPEED,-20,-20,1,250);
+            robot.outakeServo3.setPosition(0.03);
+            sleep(5000);
+            telemetry.addData("position", "right");
 
-//        encoderDrive(DRIVE_SPEED, -65,-65, 1, 250); //b .5
-        encoderDrive(TURN_SPEED, 37,-37, 1, 250); //l 45
-        encoderDrive(DRIVE_SPEED, -130,-130,2,100);
-        encoderDrive(DRIVE_SPEED, -70, -70, 3, 250); //f 2
+        } else {
+            //bottom
+            robot.extensionServoLeft.setPosition(0.5);
+            robot.extensionServoRight.setPosition(0.5);
+            robot.outakeServo3.setPosition(0.17);
+            sleep(5000);
+            robot.outakeServo3.setPosition(0.03);
+            telemetry.addData("position", "middle");
+        }
+        telemetry.addData("rip", "rip");
+        telemetry.update();
+        sleep(5000);
+        //conditional to drop at various heights
 
-
-
-//        //drop the box onto tier
-//        encoderDrive(DRIVE_SPEED,135,135,1);//back 2
-//        encoderDrive(TURN_SPEED, 30,-30, 1); //90 left ----> 60=180
-//        encoderDrive(DRIVE_SPEED, 45,45, 1);//back .5 to get to hub
-//        //code - drop the thing?
-//
-//
-//        encoderDrive(DRIVE_SPEED, -45,-45,1);//f .5\
-//        encoderDrive(TURN_SPEED, -30,-30,1);//90 left
-//        encoderDrive(DRIVE_SPEED,170,170,1);//f 2.5 curve ish
+        encoderDrive(DRIVE_SPEED, -83,-83, 1, 250); //b .5
+        encoderDrive(TURN_SPEED, 23,-23, 1, 250); //l 45
+        encoderDrive(DRIVE_SPEED, -100,-100,2,100);
+        encoderDrive(DRIVE_SPEED, -100, -100, 3, 250); //f 2
 
 
         telemetry.addData("Path", "Complete");

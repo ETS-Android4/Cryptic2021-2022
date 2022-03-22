@@ -34,20 +34,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutoBackBlue")
+@Autonomous(name="AutoFrontRed")
 
-public class AutoBackBlue extends LinearOpMode {
+public class AutoFrontRed extends LinearOpMode {
 
     /* Declare OpMode members. */
     Robot robot   = new Robot();   // Use a Pushbot's hardware
-    private ElapsedTime     runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 134.4 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 3.77953 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.35;
+    static final double     DRIVE_SPEED             = 0.4;
     static final double     TURN_SPEED              = 0.3;
 
     @Override
@@ -96,69 +96,14 @@ public class AutoBackBlue extends LinearOpMode {
         //go foward = -#
         //timeout - wait how many secs before go into the next command
 
-
-        //1 block = 30 in --> ~16 in on robot
-//        encoderDrive(TURN_SPEED,
-//        encoderDrive(TURN_SPEED, 9.5,-9.5, 1, 250); //l 45
-
-//        //foward
-        //hub first then duck no ware
-//        encoderDrive(DRIVE_SPEED, -40,-40,1,100);
-//        encoderDrive(TURN_SPEED, -50,5,1,100); //turn
-//        encoderDrive(DRIVE_SPEED,-40,-40,1,100);
-//        //outtake
-//
-//        encoderDrive(DRIVE_SPEED,40,40,1,100);
-//        encoderDrive(TURN_SPEED, 26,-26, 1, 250); //l 90
-//        encoderDrive(DRIVE_SPEED,-200,-200,1,100);
-//        robot.duckWheel.setPower(-0.4);
-//        sleep(3000);
-//        robot.duckWheel.setPower(0);
-//        //turn
-//        //drop
-//        //back out
-//        //turn face caro
-//        //forward caro
-//        //back to warehouse
-////////////////////////////////////////////////////////////////////////////////////
-        //duck first hub then ware
-        //*starting at an angle
-        //faster, slower
-        encoderDrive(TURN_SPEED, 20,10,1,100); //curved "foward"
-        encoderDrive(TURN_SPEED, -10,10,1,100);//turn a bit more
-        encoderDrive(DRIVE_SPEED, 20,20,1,100); //foward a bit
-        // turn to face carosel
-        //pivot
-//        encoderDrive(TURN_SPEED, 100,0, 2, 250); //pivot robot to face the alliance hub
-//        encoderDrive(DRIVE_SPEED, 75,75,1,100); //drive directly to hub
-//        //outtake freight using conditional
-//        encoderDrive(TURN_SPEED, 0,-20,1,100);
-//        encoderDrive(DRIVE_SPEED-0.2,-100,-120,3,100);//drive directly to carosel
-//        encoderDrive(TURN_SPEED, -10,10,1,100);
-//        robot.duckWheel.setPower(-0.4);
-//        sleep(3000);
-//        robot.duckWheel.setPower(0);
-//        encoderDrive(TURN_SPEED,0,-30,1,100);
-//        encoderDrive(DRIVE_SPEED, 120,130,2,100);
-//        encoderDrive(DRIVE_SPEED, 70, 70, 3, 250); //f 2
-
-        encoderDrive(DRIVE_SPEED, -50,-50, 1, 0);//forward 1
-        encoderDrive(0.1, -37,-37, 1, 250);
-        robot.duckWheel.setPower(.5);
-        sleep(2000);
-        robot.duckWheel.setPower(0);
-        encoderDrive(0.2, 10, 10, 1,0);//scoot foward
-        encoderDrive(TURN_SPEED, -10,10, 1, 250); //turn a wee
-        encoderDrive(DRIVE_SPEED, 180,180, 3, 250); //f to hub
-
-        encoderDrive(TURN_SPEED, -25,25, 1, 250); //r 45
-        //outtake code to drop freight
-        //conditional to drop at various heights
-
-        encoderDrive(DRIVE_SPEED, -83,-83, 1, 250); //b .5
-        encoderDrive(TURN_SPEED, -26,26, 1, 250); //r 45
-        encoderDrive(DRIVE_SPEED, -100,-100,2,100);
-        encoderDrive(DRIVE_SPEED, -100, -100, 3, 250); //f 2
+        //red
+        encoderDrive(DRIVE_SPEED,  -15,  -15, 1,100); //forward
+        encoderDrive(TURN_SPEED,  30,  -30, 1,100); //left turn
+        encoderDrive(DRIVE_SPEED,  50,  50, 1,100); //backward
+        encoderDrive(DRIVE_SPEED,  -25,  -25, 1,100); //forward
+        encoderDrive(TURN_SPEED,  30,  -30, 1,100); //left turn
+        encoderDrive(DRIVE_SPEED,  -60,  -60, 1,100);//forward
+        encoderDrive(DRIVE_SPEED,  -15,  15, 1,100);
 
 
         telemetry.addData("Path", "Complete");
@@ -236,3 +181,4 @@ public class AutoBackBlue extends LinearOpMode {
         }
     }
 }
+

@@ -41,6 +41,8 @@ public class OpModes extends LinearOpMode {
 //
 //            telemetry.addData("position",robot.dick.getBarcodePosition());
 
+            telemetry.addData("barcode",ConceptTensorFlowObjectDetectionWebcam.bar);
+
             //basic drivetrain functions
             forward = gamepad1.left_trigger - gamepad1.right_trigger + gamepad1.left_stick_y;
             //cause why not
@@ -48,18 +50,19 @@ public class OpModes extends LinearOpMode {
             //turning is too sensitive''
 
             if(gamepad1.right_bumper){
-                factor = 0.3;
+                factor = 0.8;
             }
 
             else{
-                factor = 0.85;
+                factor = 0.3;
             }
 
             forward*=factor;
             turn*=factor;
 
             double leftPower = ((forward + turn));
-            double rightPower = (forward - turn)*1.05;
+ //           double rightPower = (forward - turn)*1.05;
+            double rightPower = (forward - turn);
             double denominator = Math.max(Math.max(Math.abs(leftPower), Math.abs(rightPower)), 1);
             leftPower /= denominator;
             rightPower /= denominator;
@@ -95,7 +98,7 @@ public class OpModes extends LinearOpMode {
             //intake
             if(gamepad2.left_stick_y > 0.5){
                 robot.intakeMotor.setPower(-0.9);
-                robot.intakeServo.setPosition(0.05);
+                robot.intakeServo.setPosition(0);
                 telemetry.addData("Y", 0);
             }
 
@@ -242,6 +245,7 @@ public class OpModes extends LinearOpMode {
                     robot.extensionServoLeft.setPosition(0.27);
                     robot.extensionServoRight.setPosition(1);
                     robot.outakeServo3.setPosition(0.33);
+                    robot.trapdoor.setPosition(0.7);
                     sss= 0.6;
                 }
                 changed = true;
@@ -253,7 +257,7 @@ public class OpModes extends LinearOpMode {
 
                 if(!dropTog) {
                     //drop
-                    robot.outakeServo3.setPosition(0.05);
+                    robot.outakeServo3.setPosition(0.025);
                     dropTog = true;
                 }
                 else {
