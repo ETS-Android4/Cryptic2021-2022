@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
-        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-        import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-        import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.eyesight.Pipe_line;
 //import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
@@ -80,8 +81,14 @@ public class AutoFrontBlue extends LinearOpMode {
                 robot.rightFront.getCurrentPosition());
         telemetry.update();
 
+        robot.initRedVision(this);
+        while (!opModeIsActive()) {
+            telemetry.update();
+        }
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        Pipe_line.BarcodePosition pos = robot.dick.getBarcodePosition();
+
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
@@ -100,6 +107,31 @@ public class AutoFrontBlue extends LinearOpMode {
         encoderDrive(DRIVE_SPEED,  -15,  -15, 1,100); //forward
         encoderDrive(TURN_SPEED,  -30,  30, 1,100); //right turn
         encoderDrive(DRIVE_SPEED,  50,  50, 1,100); //backward
+        //drop freight
+        if (pos == Pipe_line.BarcodePosition.LEFT) {
+            //top
+            robot.extensionServoLeft.setPosition(0.95);
+            robot.extensionServoRight.setPosition(0);
+            robot.outakeServo3.setPosition(0.17);
+            sleep(5000);
+            robot.outakeServo3.setPosition(0.03);
+            telemetry.addData("position", "left");
+        } else if (pos == Pipe_line.BarcodePosition.RIGHT) {
+            //middle
+            encoderDrive(DRIVE_SPEED,-20,-20,1,250);
+            robot.outakeServo3.setPosition(0.03);
+            sleep(5000);
+            telemetry.addData("position", "right");
+
+        } else {
+            //bottom
+            robot.extensionServoLeft.setPosition(0.5);
+            robot.extensionServoRight.setPosition(0.5);
+            robot.outakeServo3.setPosition(0.17);
+            sleep(5000);
+            robot.outakeServo3.setPosition(0.03);
+            telemetry.addData("position", "middle");
+        }
         encoderDrive(DRIVE_SPEED,  -25,  -25, 1,100); //forward
         encoderDrive(TURN_SPEED,  -30,  30, 1,100); //right turn
         encoderDrive(DRIVE_SPEED,  -60,  -60, 1,100);//forward

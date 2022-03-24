@@ -73,11 +73,11 @@ public class Pipe_line extends OpenCvPipeline {
     }
 
     public Mat processRED(Mat input) {
-        Rect MIDDLE_ROI = new Rect(
+        Rect LEFT_ROI = new Rect(
                 new Point(200, 250),
                 new Point(539, 470));
 
-        Rect RIGHT_ROI = new Rect(
+        Rect MIDDLE_ROI = new Rect(
                 new Point(739, 250),
                 new Point(1078, 470));
 
@@ -88,19 +88,19 @@ public class Pipe_line extends OpenCvPipeline {
         Core.inRange(mat, lowHSV, highHSV, mat);
 
         Mat middle = mat.submat(MIDDLE_ROI);
-        Mat right = mat.submat(RIGHT_ROI);
+        Mat left = mat.submat(LEFT_ROI);
 
         double middleValue = Core.sumElems(middle).val[0] / MIDDLE_ROI.area() / 255;
-        double rightValue = Core.sumElems(right).val[0] / RIGHT_ROI.area() / 255;
+        double leftValue = Core.sumElems(left).val[0] / LEFT_ROI.area() / 255;
 
         middle.release();
-        right.release();
+        left.release();
 
         boolean middleBool = middleValue > PERCENT_COLOR_THRESHOLD;
-        boolean rightBool = rightValue > PERCENT_COLOR_THRESHOLD;
+        boolean rightBool = leftValue > PERCENT_COLOR_THRESHOLD;
 
         telemetry.addData("middle", middleValue);
-        telemetry.addData("right", rightValue);
+        telemetry.addData("right", leftValue);
 
         if (rightBool) {
             barcodePosition = BarcodePosition.RIGHT;
@@ -117,7 +117,7 @@ public class Pipe_line extends OpenCvPipeline {
         Scalar elementColor = new Scalar(255, 0, 0);
         Scalar notElement = new Scalar(0, 255, 0);
 
-        Imgproc.rectangle(mat, RIGHT_ROI, barcodePosition == BarcodePosition.RIGHT ? notElement : elementColor);
+        Imgproc.rectangle(mat, LEFT_ROI, barcodePosition == BarcodePosition.LEFT ? notElement : elementColor);
         Imgproc.rectangle(mat, MIDDLE_ROI, barcodePosition == BarcodePosition.MIDDLE ? notElement : elementColor);
         return mat;
     }

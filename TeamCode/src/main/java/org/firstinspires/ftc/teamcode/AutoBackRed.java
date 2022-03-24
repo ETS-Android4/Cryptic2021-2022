@@ -110,24 +110,24 @@ public class AutoBackRed extends LinearOpMode {
         sleep(2000);
         robot.duckWheel.setPower(0);
         encoderDrive(0.2, 10, 10, 1,0);//scoot foward
-        encoderDrive(TURN_SPEED, 14,-14, 1, 250); //turn a wee
-        encoderDrive(DRIVE_SPEED, 180,180, 3, 250); //f to hub
+        encoderDrive(TURN_SPEED, 12,-12, 1, 250); //turn a wee
+        encoderDrive(DRIVE_SPEED, 169,169, 3, 250); //f to hub
 
-        encoderDrive(TURN_SPEED, 23,-23, 1, 250); //l 45
+        encoderDrive(TURN_SPEED, 21,-21, 1, 250); //l 45
         //outtake code to drop freight
         if (pos == Pipe_line.BarcodePosition.LEFT) {
             //top
             robot.extensionServoLeft.setPosition(0.95);
             robot.extensionServoRight.setPosition(0);
             robot.outakeServo3.setPosition(0.17);
-            sleep(5000);
+            sleep(1000);
             robot.outakeServo3.setPosition(0.03);
             telemetry.addData("position", "left");
         } else if (pos == Pipe_line.BarcodePosition.RIGHT) {
             //middle
             encoderDrive(DRIVE_SPEED,-20,-20,1,250);
             robot.outakeServo3.setPosition(0.03);
-            sleep(5000);
+            sleep(1000);
             telemetry.addData("position", "right");
 
         } else {
@@ -135,16 +135,21 @@ public class AutoBackRed extends LinearOpMode {
             robot.extensionServoLeft.setPosition(0.5);
             robot.extensionServoRight.setPosition(0.5);
             robot.outakeServo3.setPosition(0.17);
-            sleep(5000);
+            sleep(1000);
             robot.outakeServo3.setPosition(0.03);
             telemetry.addData("position", "middle");
         }
+        //reset the outtake
+        sleep(500);
+        robot.extensionServoLeft.setPosition(0.27);
+        robot.extensionServoRight.setPosition(1);
+        robot.outakeServo3.setPosition(0.33);
         telemetry.addData("rip", "rip");
         telemetry.update();
-        sleep(5000);
+        sleep(700);
         //conditional to drop at various heights
 
-        encoderDrive(DRIVE_SPEED, -83,-83, 1, 250); //b .5
+       // encoderDrive(DRIVE_SPEED, -83,-83, 1, 250); //b .5
         encoderDrive(TURN_SPEED, 23,-23, 1, 250); //l 45
         encoderDrive(DRIVE_SPEED, -100,-100,2,100);
         encoderDrive(DRIVE_SPEED, -100, -100, 3, 250); //f 2
