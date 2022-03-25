@@ -1,17 +1,25 @@
 package org.firstinspires.ftc.teamcode.eyesight;
 
+import com.acmerobotics.dashboard.config.Config;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
-
+@Config
 public class Pipe_line extends OpenCvPipeline {
     Telemetry telemetry;
     private BarcodePosition barcodePosition;
     static double PERCENT_COLOR_THRESHOLD = 0.15;
     Team team;
     Mat mat = new Mat();
+    public static int hMin = 27;
+    public static int hMax = 43;
 
+    public static int sMin = 90;
+    public static int sMax = 200;
+
+    public static int vMin = 100;
+    public static int vMax = 255;
     public Pipe_line(Telemetry telemetry) {
         this(telemetry, Team.BLUE);
     }
@@ -33,8 +41,8 @@ public class Pipe_line extends OpenCvPipeline {
 
 
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
-        Scalar lowHSV = new Scalar(25, 25, 35);
-        Scalar highHSV = new Scalar(40, 255, 255);
+        Scalar lowHSV = new Scalar(hMin, sMin, vMin);
+        Scalar highHSV = new Scalar(hMax, sMax, vMax);
         Core.inRange(mat, lowHSV, highHSV, mat);
 
         Mat middle = mat.submat(MIDDLE_ROI);
@@ -83,8 +91,8 @@ public class Pipe_line extends OpenCvPipeline {
 
 
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
-        Scalar lowHSV = new Scalar(25, 25, 35);
-        Scalar highHSV = new Scalar(40, 255, 255);
+        Scalar lowHSV = new Scalar(hMin, sMin, vMin);
+        Scalar highHSV = new Scalar(hMax, sMax, vMax);
         Core.inRange(mat, lowHSV, highHSV, mat);
 
         Mat middle = mat.submat(MIDDLE_ROI);
@@ -97,20 +105,20 @@ public class Pipe_line extends OpenCvPipeline {
         left.release();
 
         boolean middleBool = middleValue > PERCENT_COLOR_THRESHOLD;
-        boolean rightBool = leftValue > PERCENT_COLOR_THRESHOLD;
+        boolean leftBool = leftValue > PERCENT_COLOR_THRESHOLD;
 
         telemetry.addData("middle", middleValue);
         telemetry.addData("right", leftValue);
 
-        if (rightBool) {
-            barcodePosition = BarcodePosition.RIGHT;
-            telemetry.addData("Location", "Right");
+        if (leftBool) {
+            barcodePosition = BarcodePosition.LEFT;
+            telemetry.addData("Location", "Left");
         } else if (middleBool) {
             barcodePosition = BarcodePosition.MIDDLE;
             telemetry.addData("Location", "Middle");
         } else {
-            barcodePosition = BarcodePosition.LEFT;
-            telemetry.addData("Location", "Left");
+            barcodePosition = BarcodePosition.RIGHT;
+            telemetry.addData("Location", "Right");
         }
 //        Imgproc.cvtColor( mat, mat, Imgproc.COLOR_GRAY2RGB );
 

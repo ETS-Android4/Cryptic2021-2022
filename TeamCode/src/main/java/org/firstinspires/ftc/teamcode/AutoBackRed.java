@@ -81,7 +81,7 @@ public class AutoBackRed extends LinearOpMode {
                 robot.rightFront.getCurrentPosition());
         telemetry.update();
         robot.initRedVision(this);
-        while (!opModeIsActive()) {
+        while (!(isStarted())) {
             telemetry.update();
         }
         // Wait for the game to start (driver presses PLAY)
